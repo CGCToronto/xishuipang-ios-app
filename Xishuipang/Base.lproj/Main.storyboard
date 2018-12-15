@@ -96,17 +96,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ch2-v9-MBS">
-                            <size key="itemSize" width="50" height="50"/>
+                            <size key="itemSize" width="79" height="69"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="1Ba-yp-lyi">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="79" height="69"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="79" height="69"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </view>
                             </collectionViewCell>
@@ -119,14 +119,14 @@
                     <navigationItem key="navigationItem" title="本期概要" id="WSx-tU-Bga">
                         <barButtonItem key="rightBarButtonItem" title="更换期刊" id="KBx-Ey-ZTX">
                             <connections>
-                                <segue destination="9Cx-Iy-MSA" kind="show" id="nNa-wc-fXO"/>
+                                <segue destination="9Cx-Iy-MSA" kind="show" identifier="ShowAllVolume" id="nNa-wc-fXO"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pKf-um-wah" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2067" y="133"/>
+            <point key="canvasLocation" x="2066.666666666667" y="132.88043478260872"/>
         </scene>
         <!--所有期刊-->
         <scene sceneID="zXM-n2-IuW">

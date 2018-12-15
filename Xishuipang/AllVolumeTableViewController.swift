@@ -12,6 +12,7 @@ import os.log
 class AllVolumeTableViewController: UITableViewController {
 
     var volumes = [Volume]()
+    var delegate : AllVolumeTableViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,10 @@ class AllVolumeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
+        // let cell = tableView.cellForRow(at: indexPath)
+        let newVolume = Volume()
+        newVolume.volumeTheme = "blah blah blah"
+        self.delegate?.allVolumeTableViewControllerWillDismiss(volume: newVolume)
         navigationController?.popViewController(animated: true)
     }
     

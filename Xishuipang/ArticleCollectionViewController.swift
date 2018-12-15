@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import os.log
 
 private let reuseIdentifier = "Cell"
 
-class ArticleCollectionViewController: UICollectionViewController {
-
+class ArticleCollectionViewController: UICollectionViewController, AllVolumeTableViewControllerDelegate {
+    
+    // MARK: properties
+    var selectedVolume : Volume?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,15 +28,22 @@ class ArticleCollectionViewController: UICollectionViewController {
         // Do any additional setup after loading the view.
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowAllVolume" {
+            guard let allVolumeViewController = segue.destination as? AllVolumeTableViewController else {
+                os_log("Destination view controller is not AllVolumeTableViewController", log: .default, type: .debug)
+                return;
+            }
+            allVolumeViewController.delegate = self
+        }
     }
-    */
+ 
 
     // MARK: UICollectionViewDataSource
 
@@ -85,5 +96,9 @@ class ArticleCollectionViewController: UICollectionViewController {
     
     }
     */
-
+    
+    // MARK: AllVolumeTableViewControllerDelegate handler
+    func allVolumeTableViewControllerWillDismiss(volume: Volume) {
+        selectedVolume = volume
+    }
 }

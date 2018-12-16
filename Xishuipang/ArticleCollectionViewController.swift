@@ -11,7 +11,10 @@ import os.log
 
 private let reuseIdentifier = "Cell"
 
-class ArticleCollectionViewController: UICollectionViewController, AllVolumeTableViewControllerDelegate {
+class ArticleCollectionViewController: UICollectionViewController, AllVolumeTableViewControllerDelegate, UICollectionViewDelegateFlowLayout {
+    
+    // MARK: constants
+    let articleCollectionViewCellIdentifier = "ArticleCollectionViewCell"
     
     // MARK: properties
     var selectedVolume : Volume?
@@ -22,12 +25,35 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
         // Do any additional setup after loading the view.
+        if let savedVolume = getSavedVolumeFromDisk() {
+            selectedVolume = savedVolume
+        } else if let latestVolume = getLatestVolumeFromServer() {
+            selectedVolume = latestVolume
+        } else {
+            selectedVolume = Volume()
+            var articles = [Article]()
+            articles.append(Article())
+            articles.append(Article())
+            articles.append(Article())
+            articles.append(Article())
+            selectedVolume?.articles = articles
+            
+            os_log("App is offline", log: .default, type: .debug)
+        }
     }
-
+    
+    private func getSavedVolumeFromDisk() -> Volume? {
+        // load the opened volume from the user in this function.
+        // to be implemented
+        return nil
+    }
+    
+    private func getLatestVolumeFromServer() -> Volume? {
+        // return the latest volume from server in this function.
+        // to be implemented
+        return nil
+    }
     
     // MARK: - Navigation
 
@@ -49,22 +75,39 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        if let articles = selectedVolume?.articles {
+            return articles.count
+        }
+        else {
+            return 0
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: articleCollectionViewCellIdentifier, for: indexPath) as? ArticleCollectionViewCell else {
+            fatalError("The cell instance is not a ArticleCollectionViewCell.")
+        }
+
+        if let articles = selectedVolume?.articles {
+            cell.article = articles[indexPath.row]
+            cell.loadArticleToView()
+        }
+        
         return cell
     }
+    
+    // MARK: UICollectionViewDelegateFlowLayout
+    /*
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+    }
+ */
 
     // MARK: UICollectionViewDelegate
 

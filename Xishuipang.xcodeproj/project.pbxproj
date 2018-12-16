@@ -21,6 +21,7 @@
 		E5F2CA7821BDC9A000976CDE /* AllVolumeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7721BDC9A000976CDE /* AllVolumeTableViewController.swift */; };
 		E5F2CA7A21BF730800976CDE /* AllVolumeTableViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7921BF730800976CDE /* AllVolumeTableViewControllerDelegate.swift */; };
 		E5F2CA7C21BF73CE00976CDE /* ArticleCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7B21BF73CE00976CDE /* ArticleCollectionViewController.swift */; };
+		E5F2CA7E21C5747500976CDE /* ArticleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7D21C5747500976CDE /* ArticleCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		E5F2CA7721BDC9A000976CDE /* AllVolumeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllVolumeTableViewController.swift; sourceTree = "<group>"; };
 		E5F2CA7921BF730800976CDE /* AllVolumeTableViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllVolumeTableViewControllerDelegate.swift; sourceTree = "<group>"; };
 		E5F2CA7B21BF73CE00976CDE /* ArticleCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionViewController.swift; sourceTree = "<group>"; };
+		E5F2CA7D21C5747500976CDE /* ArticleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				E5F2CA7121BA127C00976CDE /* Volume.swift */,
 				E5F2CA7321BA12B400976CDE /* Article.swift */,
 				E5F2CA7721BDC9A000976CDE /* AllVolumeTableViewController.swift */,
+				E5F2CA7D21C5747500976CDE /* ArticleCollectionViewCell.swift */,
 				E5F2CA7921BF730800976CDE /* AllVolumeTableViewControllerDelegate.swift */,
 				E5F2CA7B21BF73CE00976CDE /* ArticleCollectionViewController.swift */,
 				E503AE3D2102347A007C1A0C /* HomePageViewController.swift */,
@@ -284,6 +287,7 @@
 				E5F2CA7C21BF73CE00976CDE /* ArticleCollectionViewController.swift in Sources */,
 				E503AE3E2102347A007C1A0C /* HomePageViewController.swift in Sources */,
 				E503AE3C2102347A007C1A0C /* AppDelegate.swift in Sources */,
+				E5F2CA7E21C5747500976CDE /* ArticleCollectionViewCell.swift in Sources */,
 				E5F2CA7221BA127C00976CDE /* Volume.swift in Sources */,
 				E5F2CA7421BA12B400976CDE /* Article.swift in Sources */,
 			);

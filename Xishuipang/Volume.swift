@@ -16,9 +16,7 @@ class Volume : NSObject {
     var publishMonth: Int = 1
     var publishDay: Int = 1
     var volumeTheme: String = ""
-    
-    // articlesDictionary has key of articleID and value of Article object.
-    var articlesDictionary = [String:Article]()
+    var articles : [Article]?
     
     override init() {
         super.init()

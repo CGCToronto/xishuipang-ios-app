@@ -10,9 +10,9 @@ import Foundation
 
 class Article : NSObject {
     
-    var title = "这是一篇文章"
-    var category = "这篇文章有这样的目录"
-    var author = "Gavin"
+    var title = "标题"
+    var category = "类别"
+    var author = "作者"
     var imagesPaths = [String]()
     var content = ["天父啊！你的名在全地是何其的美，你的慈爱永远长存！你使我们这坐在黑暗死荫之地的人看见了大光，将困苦和锁链为我们解开，将我们从死亡的权势下救拔出来，都是因你儿子耶稣在十字架上的救赎，他偿还了我们的罪债。你把我们的罪惩罚在你儿子的身上，却将他那圣洁的、完全的义归给我们，使我们披戴基督的义，可以坦然无惧地来到父神的面前，求恩惠求怜悯。",
     

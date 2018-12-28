@@ -8,13 +8,14 @@
 
 import UIKit
 
-class ArticleCollectionViewCell: UICollectionViewCell {
+class ArticleCollectionViewCell: UICollectionViewCell{
     
     // MARK: outlets
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var previewTextView: UITextView!
+    
     
     // MARK: properties
     var article : Article?

@@ -7,25 +7,22 @@
 //
 
 import Foundation
+import os.log
 
 class Article : NSObject {
     
+    // MARK: properties
+    var volume = 0
     var id = ""
-    var title = "标题"
-    var category = "类别"
-    var author = "作者"
+    var title = ""
+    var category = ""
+    var author = ""
     var imagesPaths = [String]()
-    var content = ["天父啊！你的名在全地是何其的美，你的慈爱永远长存！你使我们这坐在黑暗死荫之地的人看见了大光，将困苦和锁链为我们解开，将我们从死亡的权势下救拔出来，都是因你儿子耶稣在十字架上的救赎，他偿还了我们的罪债。你把我们的罪惩罚在你儿子的身上，却将他那圣洁的、完全的义归给我们，使我们披戴基督的义，可以坦然无惧地来到父神的面前，求恩惠求怜悯。",
+    var content = [String]()
     
-    "父神啊！我们算什么？你竟如此地爱我们？诗人说：“得赦免其过、遮盖其罪的，这人是有福的。”“他所拣选为自己产业的，那民是有福的。”感谢你！在创立世界以前，在基督里拣选我们，使我们在你面前成为圣洁，无有瑕疵。这都是你的恩典，白白赐给我们。",
-    
-    "父神啊！你使耶稣基督复活，以大能显明他是你的儿子，因为耶稣被交给人，是为我们的过犯，复活是为叫我们称义。主耶稣复活后，向门徒显现，颁布大使命，使凡被主救赎作门徒的都遵守这使命，去到各处，传福音给万民听，使万民作主的门徒，奉父、子、圣灵的名给他们施洗。父啊！无数的人在世界各地，不同的角落遵行着这使命，在传福音作见证领人归向基督，并且使凡信的人被造就、被装备作门徒，建立教会，使主的名在全地得荣耀。",
-    
-    "父神啊！求你使弟兄姊妹们都遵行福音的使命，保守我们的心，使福音的火始终在我们心中燃烧，叫我们含忍不住要把这好消息告诉人。更重要的是，教导栽培信的人作门徒，建立教会，在全地荣耀父你的名。作信而顺从的跟随者。",
-    
-    "父神啊！恳求你保护我们，给我们从你而来的智慧，也赐我们刚强壮胆勇敢的心。帮助我们在任何的环境中都能与你亲近，依靠圣灵的大能，打那美好属灵的仗，靠主得胜！使我们灵巧像蛇，驯良像鸽子，作成传道的功夫，尽上自己的本分，持守这神圣的使命。看顾我们的家人，照顾我们的身体，供应我们的所需，使同工之间彼此相爱，互相守望，也将得救的人天天加给我们！荣耀父的名！",
-    
-    "如此祷告是奉主耶稣基督的圣名！阿门！"]
+    // MARK: URLSession
+    private let defaultSession = URLSession(configuration: .default)
+    private var dataTask : URLSessionTask?
     
     // MARK: constructors
     override init()
@@ -33,11 +30,76 @@ class Article : NSObject {
         super.init()
     }
     
-    convenience init(id: String, title: String, category: String, author: String) {
+    convenience init(volume: Int, id: String, title: String, category: String, author: String) {
         self.init()
+        self.volume = volume
         self.id = id
         self.title = title
         self.category = category
         self.author = author
+    }
+    
+    func loadArticleContentFromServer(completionHandler: @escaping ()->Void) -> Bool {
+        if var urlComponents = URLComponents(string: API.Article.URL) {
+            dataTask?.cancel()
+            urlComponents.query = API.Article.Query(volume: volume, id: id, character: "simplified")
+        
+            guard let url = urlComponents.url else {
+                return false
+            }
+            
+            let handler = { (data: Data?, response:URLResponse?, error:Error?) -> Void in
+                if let error = error {
+                    os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
+                } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                    if self.parse(data:data) {
+                        completionHandler()
+                    }
+                }
+                
+                self.dataTask = nil
+            }
+            
+            dataTask = defaultSession.dataTask(with: url, completionHandler: handler)
+            dataTask?.resume()
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    fileprivate func parse(data: Data?) -> Bool {
+        do {
+            guard let data = data else {
+                return false
+            }
+            guard let jsonObj = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary else {
+                throw NSError()
+            }
+            if let jsonDictionary = jsonObj as? [String:Any] {
+                return parse(article:jsonDictionary)
+            }
+            
+        } catch let error as NSError {
+            print(error.debugDescription)
+            return false
+        }
+        
+        return true
+    }
+    
+    fileprivate func parse(article: [String: Any]) -> Bool {
+        if let contentArray = article["content"] as? [Any] {
+            for sentence in contentArray {
+                if let sentenceStr = sentence as? String {
+                    content.append(sentenceStr)
+                } else {
+                    return false
+                }
+            }
+            return true
+        } else {
+            return false
+        }
     }
 }

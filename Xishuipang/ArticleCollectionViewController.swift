@@ -14,9 +14,11 @@ private let reuseIdentifier = "Cell"
 class ArticleCollectionViewController: UICollectionViewController, AllVolumeTableViewControllerDelegate {
     
     // MARK: outlets
+    @IBOutlet weak var loadingProgress: UIProgressView!
     
     // MARK: constants
     let articleCollectionViewCellIdentifier = "ArticleCollectionViewCell"
+    let articleCollectionViewHeaderIdentifier = "ArticleCollectionViewHeader"
     
     // MARK: properties
     var selectedVolume : Volume?
@@ -44,10 +46,18 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
             os_log("App is offline", log: .default, type: .debug)
         } */
         
+        loadingProgress?.setProgress(0.0, animated: true)
         selectedVolume = Volume()
-        selectedVolume?.loadVolumeFromServer(withVolume: 57) {
+        
+        let completionHandler = {() -> Void in
             self.collectionView?.reloadData()
         }
+        
+        let progressHandler = {(progress: Float) -> Void in
+            self.loadingProgress?.setProgress(progress, animated: true)
+        }
+        
+        selectedVolume?.loadVolumeFromServer(withVolume: 57, progress: progressHandler, completion: completionHandler)
     }
     
     private func getSavedVolumeFromDisk() -> Volume? {
@@ -126,6 +136,13 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         }
         
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: articleCollectionViewHeaderIdentifier, for: indexPath)
+        
+        return headerView
     }
     
     // MARK: UICollectionViewDelegateFlowLayout

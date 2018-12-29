@@ -21,6 +21,7 @@ class Volume : NSObject {
     
     // MARK: state variables
     var readFromServerResult = false
+    var numLoadedArticles = 0
     
     // MARK: URLSession
     private let defaultSession = URLSession(configuration: .default)
@@ -31,11 +32,11 @@ class Volume : NSObject {
     }
     
     // MARK: Implementation
-    func loadVolumeFromServer(withVolume volume:Int, completion: @escaping ()->Void) -> Bool {
-        dataTask?.cancel()
+    func loadVolumeFromServer(withVolume volume:Int, progress: @escaping (Float) -> Void, completion: @escaping ()->Void) -> Bool {
         readFromServerResult = false
-        if var urlComponents = URLComponents(string: "http://www.xishuipang.com/article/list") {
-            urlComponents.query = "volume=\(volume)"
+        if var urlComponents = URLComponents(string: API.ArticleList.URL) {
+            dataTask?.cancel()
+            urlComponents.query = API.ArticleList.Query(volume: volume, character: "simplified")
             
             guard let url = urlComponents.url else {
                 return false
@@ -46,8 +47,22 @@ class Volume : NSObject {
                     os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
                     self.readFromServerResult = false
                 } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                    if self.parse(data:data) {
-                        DispatchQueue.main.async(execute: completion)
+                    let articleLoadedHandler = {
+                        self.numLoadedArticles = self.numLoadedArticles + 1
+                        let progressPercentage = Float(self.numLoadedArticles) / Float(self.articles.count)
+                        if progressPercentage < 1.0 {
+                            DispatchQueue.main.async {
+                                progress(progressPercentage)
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                progress(progressPercentage)
+                                completion()
+                            }
+                        }
+                    }
+                    self.numLoadedArticles = 0
+                    if self.parse(data:data, articleLoadedHandler:articleLoadedHandler) {
                         self.readFromServerResult = true
                     }
                 }
@@ -64,7 +79,7 @@ class Volume : NSObject {
     }
     
     // MARK: parsing
-    func parse(data: Data?) -> Bool {
+    func parse(data: Data?, articleLoadedHandler: @escaping () -> Void) -> Bool {
         do {
             guard let data = data else {
                 return false
@@ -73,7 +88,7 @@ class Volume : NSObject {
                 throw NSError()
             }
             if let jsonDictionary = jsonObj as? [String:Any] {
-                return parse(volume:jsonDictionary)
+                return parse(volume:jsonDictionary, articleLoadedHandler:articleLoadedHandler)
             }
             
         } catch let error as NSError {
@@ -84,12 +99,15 @@ class Volume : NSObject {
         return true
     }
     
-    fileprivate func parse(volume: [String:Any]) -> Bool {
-        if let categories = volume["table_of_content"] as? [Any] {
+    fileprivate func parse(volume: [String:Any], articleLoadedHandler: @escaping () -> Void) -> Bool {
+        if let volumeNumberStr = volume["volume"] as? String,
+            let volumeNumber = Int(volumeNumberStr),
+            let categories = volume["table_of_content"] as? [Any] {
+            self.volumeNumber = volumeNumber
             var result = true
             for category in categories {
                 if let categoryDictionary = category as? [String:Any] {
-                    result = result && parse(category:categoryDictionary)
+                    result = result && parse(category:categoryDictionary, articleLoadedHandler:articleLoadedHandler)
                 } else {
                     return false
                 }
@@ -100,13 +118,13 @@ class Volume : NSObject {
         }
     }
     
-    fileprivate func parse(category: [String:Any]) -> Bool {
+    fileprivate func parse(category: [String:Any], articleLoadedHandler: @escaping () -> Void) -> Bool {
         if let categoryName = category["category"] as? String,
             let articleCollection = category["articles"] as? [Any] {
             var result = true
             for article in articleCollection {
                 if let articleDictionary = article as? [String:Any]{
-                    result = result && parse(article:articleDictionary, category: categoryName)
+                    result = result && parse(article:articleDictionary, category: categoryName, articleLoadedHandler:articleLoadedHandler)
                 } else {
                     return false
                 }
@@ -117,12 +135,14 @@ class Volume : NSObject {
         }
     }
     
-    fileprivate func parse(article: [String:Any], category: String) -> Bool {
+    fileprivate func parse(article: [String:Any], category: String, articleLoadedHandler: @escaping () -> Void) -> Bool {
         if let title = article["title"] as? String,
             let author = article["author"] as? String,
             let id = article["id"] as? String {
-            let newArticle = Article(id: id, title: title, category: category, author: author)
-            articles.append(newArticle)
+            let newArticle = Article(volume: volumeNumber, id: id, title: title, category: category, author: author)
+            if newArticle.loadArticleContentFromServer(completionHandler: articleLoadedHandler) {
+                articles.append(newArticle)
+            }
             return true
         } else {
             return false

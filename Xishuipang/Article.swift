@@ -10,6 +10,7 @@ import Foundation
 
 class Article : NSObject {
     
+    var id = ""
     var title = "标题"
     var category = "类别"
     var author = "作者"
@@ -26,8 +27,17 @@ class Article : NSObject {
     
     "如此祷告是奉主耶稣基督的圣名！阿门！"]
     
+    // MARK: constructors
     override init()
     {
         super.init()
+    }
+    
+    convenience init(id: String, title: String, category: String, author: String) {
+        self.init()
+        self.id = id
+        self.title = title
+        self.category = category
+        self.author = author
     }
 }

@@ -13,6 +13,8 @@ private let reuseIdentifier = "Cell"
 
 class ArticleCollectionViewController: UICollectionViewController, AllVolumeTableViewControllerDelegate {
     
+    // MARK: outlets
+    
     // MARK: constants
     let articleCollectionViewCellIdentifier = "ArticleCollectionViewCell"
     
@@ -26,7 +28,7 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         // self.clearsSelectionOnViewWillAppear = false
 
         // Do any additional setup after loading the view.
-        if let savedVolume = getSavedVolumeFromDisk() {
+        /* if let savedVolume = getSavedVolumeFromDisk() {
             selectedVolume = savedVolume
         } else if let latestVolume = getLatestVolumeFromServer() {
             selectedVolume = latestVolume
@@ -40,6 +42,11 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
             selectedVolume?.articles = articles
             
             os_log("App is offline", log: .default, type: .debug)
+        } */
+        
+        selectedVolume = Volume()
+        selectedVolume?.loadVolumeFromServer(withVolume: 57) {
+            self.collectionView?.reloadData()
         }
     }
     

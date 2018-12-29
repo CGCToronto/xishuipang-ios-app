@@ -14,7 +14,6 @@
 		E503AE462102347B007C1A0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E503AE442102347B007C1A0C /* LaunchScreen.storyboard */; };
 		E503AE512102347B007C1A0C /* XishuipangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E503AE502102347B007C1A0C /* XishuipangTests.swift */; };
 		E503AE5C2102347B007C1A0C /* XishuipangUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E503AE5B2102347B007C1A0C /* XishuipangUITests.swift */; };
-		E5F2CA7021B4929800976CDE /* ArticleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA6F21B4929800976CDE /* ArticleScrollView.swift */; };
 		E5F2CA7221BA127C00976CDE /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7121BA127C00976CDE /* Volume.swift */; };
 		E5F2CA7421BA12B400976CDE /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7321BA12B400976CDE /* Article.swift */; };
 		E5F2CA7621BC831200976CDE /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7521BC831200976CDE /* ArticleViewController.swift */; };
@@ -55,7 +54,6 @@
 		E503AE572102347B007C1A0C /* XishuipangUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XishuipangUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E503AE5B2102347B007C1A0C /* XishuipangUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XishuipangUITests.swift; sourceTree = "<group>"; };
 		E503AE5D2102347B007C1A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E5F2CA6F21B4929800976CDE /* ArticleScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleScrollView.swift; sourceTree = "<group>"; };
 		E5F2CA7121BA127C00976CDE /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		E5F2CA7321BA12B400976CDE /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		E5F2CA7521BC831200976CDE /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
@@ -123,7 +121,6 @@
 				E503AE3D2102347A007C1A0C /* HomePageViewController.swift */,
 				E5F2CA7521BC831200976CDE /* ArticleViewController.swift */,
 				E503AE3F2102347A007C1A0C /* Main.storyboard */,
-				E5F2CA6F21B4929800976CDE /* ArticleScrollView.swift */,
 				E503AE422102347B007C1A0C /* Assets.xcassets */,
 				E503AE442102347B007C1A0C /* LaunchScreen.storyboard */,
 				E503AE472102347B007C1A0C /* Info.plist */,
@@ -280,7 +277,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5F2CA7021B4929800976CDE /* ArticleScrollView.swift in Sources */,
 				E5F2CA7821BDC9A000976CDE /* AllVolumeTableViewController.swift in Sources */,
 				E5F2CA7621BC831200976CDE /* ArticleViewController.swift in Sources */,
 				E5F2CA7A21BF730800976CDE /* AllVolumeTableViewControllerDelegate.swift in Sources */,

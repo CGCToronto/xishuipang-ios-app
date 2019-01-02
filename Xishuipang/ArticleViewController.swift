@@ -11,8 +11,10 @@ import UIKit
 class ArticleViewController: UIViewController {
 
     // MARK: outlets
-    @IBOutlet weak var articleStackView: UIStackView!
-    @IBOutlet weak var articleScrollView: UIScrollView!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var contentStackView: UIStackView!
     
     // MARK: properties
     var article = Article()
@@ -27,27 +29,19 @@ class ArticleViewController: UIViewController {
     // MARK: private methods
     func loadArticleContentToView() {
         
-        let title = UILabel()
-        title.text = article.title
-        articleStackView.addArrangedSubview(title)
-        
-        let category = UILabel()
-        category.text = article.category
-        articleStackView.addArrangedSubview(category)
-        
-        let author = UILabel()
-        author.text = article.author
-        articleStackView.addArrangedSubview(author)
+        categoryLabel.text = article.category
+        titleLabel.text = article.title
+        authorLabel.text = article.author
         
         for line in article.content {
-            let lineTextView = UITextView()
-            lineTextView.isScrollEnabled = false
-            lineTextView.isEditable = false
-            lineTextView.font = UIFont.preferredFont(forTextStyle: .body)
-            lineTextView.text = line
-            articleStackView.addArrangedSubview(lineTextView)
-            
-            // NSLayoutConstraint(item: lineTextView, attribute: .width, relatedBy: .equal, toItem: articleStackView, attribute: .width, multiplier: 1.0, constant: 0.0).isActive = true
+            if line != "" {
+                let lineTextView = UITextView()
+                lineTextView.isScrollEnabled = false
+                lineTextView.isEditable = false
+                lineTextView.font = UIFont.preferredFont(forTextStyle: .body)
+                lineTextView.text = line
+                contentStackView.addArrangedSubview(lineTextView)
+            }
         }
     }
 

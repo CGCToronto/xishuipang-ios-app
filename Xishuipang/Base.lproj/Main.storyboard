@@ -252,19 +252,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N25-Jw-5yg">
-                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N25-Jw-5yg">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="A3D-lf-d7t">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="A3D-lf-d7t">
+                                        <rect key="frame" x="8" y="8" width="398" height="302"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HeQ-g4-AKH" userLabel="Category Label">
+                                                <rect key="frame" x="0.0" y="0.0" width="398" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IM7-ub-0cp" userLabel="Title Label">
+                                                <rect key="frame" x="0.0" y="32" width="398" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VOd-Fg-BTw" userLabel="Author Label">
+                                                <rect key="frame" x="0.0" y="70" width="398" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="F2F-9U-PPN" userLabel="Article Content Stack View">
+                                                <rect key="frame" x="0.0" y="102" width="398" height="200"/>
+                                            </stackView>
+                                        </subviews>
                                     </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="A3D-lf-d7t" secondAttribute="bottom" id="S5m-Gq-nzs"/>
-                                    <constraint firstAttribute="trailing" secondItem="A3D-lf-d7t" secondAttribute="trailing" id="aHF-MY-FaV"/>
-                                    <constraint firstItem="A3D-lf-d7t" firstAttribute="width" secondItem="N25-Jw-5yg" secondAttribute="width" id="lMZ-pI-iEi"/>
-                                    <constraint firstItem="A3D-lf-d7t" firstAttribute="leading" secondItem="N25-Jw-5yg" secondAttribute="leading" id="pug-ta-qrn"/>
-                                    <constraint firstItem="A3D-lf-d7t" firstAttribute="top" secondItem="N25-Jw-5yg" secondAttribute="top" id="wgs-Fz-oaQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="A3D-lf-d7t" secondAttribute="trailing" constant="8" id="aHF-MY-FaV"/>
+                                    <constraint firstItem="A3D-lf-d7t" firstAttribute="width" secondItem="N25-Jw-5yg" secondAttribute="width" constant="-16" id="lMZ-pI-iEi"/>
+                                    <constraint firstItem="A3D-lf-d7t" firstAttribute="leading" secondItem="N25-Jw-5yg" secondAttribute="leading" constant="8" id="pug-ta-qrn"/>
+                                    <constraint firstItem="A3D-lf-d7t" firstAttribute="top" secondItem="N25-Jw-5yg" secondAttribute="top" constant="8" id="wgs-Fz-oaQ"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -279,8 +302,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="阅读" id="jSC-i4-Bet"/>
                     <connections>
-                        <outlet property="articleScrollView" destination="N25-Jw-5yg" id="CF0-eo-SNi"/>
-                        <outlet property="articleStackView" destination="A3D-lf-d7t" id="Xfn-1p-Lpp"/>
+                        <outlet property="authorLabel" destination="VOd-Fg-BTw" id="RwL-t8-iUS"/>
+                        <outlet property="categoryLabel" destination="HeQ-g4-AKH" id="Lje-fg-h57"/>
+                        <outlet property="contentStackView" destination="F2F-9U-PPN" id="zda-RE-sn2"/>
+                        <outlet property="titleLabel" destination="IM7-ub-0cp" id="b5p-7p-ufx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IX4-3c-A0C" userLabel="First Responder" sceneMemberID="firstResponder"/>

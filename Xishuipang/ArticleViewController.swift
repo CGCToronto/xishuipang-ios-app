@@ -34,12 +34,26 @@ class ArticleViewController: UIViewController {
         authorLabel.text = article.author
         
         for line in article.content {
-            if line != "" {
+            if article.isImageTag(line: line) {
+                
+                let stackViewWidth = contentStackView.frame.width
+                
+                let imageFileName = article.getImageFilenameFromImageTag(line: line)
+                if let image = article.images[imageFileName] {
+                    let resizedImage = image.resizeWithAspectRatio(toFitIn: CGSize(width:stackViewWidth, height:stackViewWidth))
+                    let imageView = UIImageView(image: resizedImage)
+                    imageView.contentMode = .scaleAspectFit
+                    contentStackView.addArrangedSubview(imageView)
+                }
+            } else if line != "" {
                 let lineTextView = UITextView()
                 lineTextView.isScrollEnabled = false
                 lineTextView.isEditable = false
-                lineTextView.font = UIFont.preferredFont(forTextStyle: .body)
-                lineTextView.text = line
+                let font = UIFont.preferredFont(forTextStyle: .body).withSize(20)
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineSpacing = 8
+                let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font]
+                lineTextView.attributedText = NSAttributedString(string: line, attributes: attributes)
                 contentStackView.addArrangedSubview(lineTextView)
             }
         }

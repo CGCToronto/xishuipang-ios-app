@@ -22,4 +22,11 @@ struct API {
             return "volume=\(volume)&name=\(id)&character=\(character)"
         }
     }
+    
+    struct Image {
+        static let URL = "http://www.xishuipang.com/content"
+        static func Query(volume: Int, imageFileName: String) -> String {
+            return "volume_\(volume)/images/\(imageFileName)"
+        }
+    }
 }

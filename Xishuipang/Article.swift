@@ -8,6 +8,7 @@
 
 import Foundation
 import os.log
+import UIKit
 
 class Article : NSObject {
     
@@ -17,12 +18,13 @@ class Article : NSObject {
     var title = ""
     var category = ""
     var author = ""
-    var imagesPaths = [String]()
+    var images = [String:UIImage]()
     var content = [String]()
     
     // MARK: URLSession
     private let defaultSession = URLSession(configuration: .default)
     private var dataTask : URLSessionTask?
+    private var imageDownloadTasks = [URLSessionTask?]()
     
     // MARK: constructors
     override init()
@@ -53,6 +55,7 @@ class Article : NSObject {
                     os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
                 } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
                     if self.parse(data:data) {
+                        self.loadImagesFromServer()
                         completionHandler()
                     }
                 }
@@ -100,6 +103,40 @@ class Article : NSObject {
             return true
         } else {
             return false
+        }
+    }
+    
+    func isImageTag(line: String) -> Bool {
+        return line != "" && line.first == "<" && line.last == ">"
+    }
+    
+    func getImageFilenameFromImageTag(line: String) -> String {
+        return line.trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
+    }
+    
+    func loadImagesFromServer() {
+        for line in content {
+            if isImageTag(line: line) {
+                // image tag
+                let imageFileName = getImageFilenameFromImageTag(line: line)
+                if let urlComponents = URLComponents(string: API.Image.URL + "/" + API.Image.Query(volume: volume, imageFileName: imageFileName)) {
+                    if let url = urlComponents.url {
+                        let imageLoadedHandler = {(data: Data?, response:URLResponse?, error:Error?) -> Void in
+                            if let error = error {
+                                os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
+                            } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200, let url = response.url {
+                                let imageName = url.lastPathComponent
+                                let newImage = UIImage(data:data)
+                                self.images[imageName] = newImage
+                            }
+                        }
+                        
+                        let downloadImgTask = defaultSession.dataTask(with: url, completionHandler: imageLoadedHandler)
+                        downloadImgTask.resume()
+                        imageDownloadTasks.append(downloadImgTask)
+                    }
+                }
+            }
         }
     }
 }

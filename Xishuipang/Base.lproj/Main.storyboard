@@ -256,7 +256,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="A3D-lf-d7t">
-                                        <rect key="frame" x="8" y="8" width="398" height="302"/>
+                                        <rect key="frame" x="8" y="8" width="398" height="1518"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HeQ-g4-AKH" userLabel="Category Label">
                                                 <rect key="frame" x="0.0" y="0.0" width="398" height="24"/>
@@ -277,7 +277,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="F2F-9U-PPN" userLabel="Article Content Stack View">
-                                                <rect key="frame" x="0.0" y="102" width="398" height="200"/>
+                                                <rect key="frame" x="0.0" y="102" width="398" height="1416"/>
                                             </stackView>
                                         </subviews>
                                     </stackView>

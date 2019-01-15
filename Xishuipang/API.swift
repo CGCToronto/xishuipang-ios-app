@@ -29,4 +29,8 @@ struct API {
             return "volume_\(volume)/images/\(imageFileName)"
         }
     }
+    
+    struct VolumeList {
+        static let URL = "http://www.xishuipang.com/volume/list"
+    }
 }

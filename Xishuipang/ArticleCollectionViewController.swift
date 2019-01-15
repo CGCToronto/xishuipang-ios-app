@@ -21,8 +21,18 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     let articleCollectionViewHeaderIdentifier = "ArticleCollectionViewHeader"
     
     // MARK: properties
-    var selectedVolume : Volume?
+    var selectedVolume : Volume? = Volume()
     
+    // MARK: event handlers
+    func volumeLoadedHandler() {
+        self.collectionView?.reloadData()
+    }
+    
+    func progressHandler(progress: Float) {
+        self.loadingProgress?.setProgress(progress, animated: true)
+    }
+    
+    // MARK: functions
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,17 +57,8 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         } */
         
         loadingProgress?.setProgress(0.0, animated: true)
-        selectedVolume = Volume()
         
-        let completionHandler = {() -> Void in
-            self.collectionView?.reloadData()
-        }
-        
-        let progressHandler = {(progress: Float) -> Void in
-            self.loadingProgress?.setProgress(progress, animated: true)
-        }
-        
-        selectedVolume?.loadVolumeFromServer(withVolume: 57, progress: progressHandler, completion: completionHandler)
+        selectedVolume?.loadVolumeFromServer(withVolume: 57, progress: progressHandler, completion: volumeLoadedHandler)
     }
     
     private func getSavedVolumeFromDisk() -> Volume? {
@@ -183,7 +184,10 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     */
     
     // MARK: AllVolumeTableViewControllerDelegate handler
-    func allVolumeTableViewControllerWillDismiss(volume: Volume) {
-        selectedVolume = volume
+    func allVolumeTableViewControllerWillDismiss(volumeNumber: Int) {
+        selectedVolume?.clearVolumeContent()
+        self.collectionView?.reloadData()
+        loadingProgress?.setProgress(0.0, animated: true)
+        selectedVolume?.loadVolumeFromServer(withVolume: volumeNumber, progress: progressHandler, completion: volumeLoadedHandler)
     }
 }

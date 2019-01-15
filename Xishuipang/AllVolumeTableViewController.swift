@@ -11,8 +11,13 @@ import os.log
 
 class AllVolumeTableViewController: UITableViewController {
 
-    var volumes = [Volume]()
+    // MARK: properties
+    var volumes = [Int]()
     var delegate : AllVolumeTableViewControllerDelegate?
+    
+    // MARK: URLSession
+    private let defaultSession = URLSession(configuration: .default)
+    private var dataTask : URLSessionTask?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +27,11 @@ class AllVolumeTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        initializeVolumeList()
+        let completionHandler = {() -> Void in
+            self.tableView?.reloadData()
+        }
+        
+        loadVolumeListFromServer(completionHandler: completionHandler)
     }
 
     // MARK: - Table view data source
@@ -42,15 +51,14 @@ class AllVolumeTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "VolumeCell", for: indexPath)
 
         // Configure the cell...table
-        cell.textLabel?.text = "第\(volumes[indexPath.row].volumeNumber)期"
+        cell.textLabel?.text = "第\(volumes[indexPath.row])期"
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // let cell = tableView.cellForRow(at: indexPath)
-        let newVolume = Volume()
-        newVolume.volumeTheme = "blah blah blah"
-        self.delegate?.allVolumeTableViewControllerWillDismiss(volume: newVolume)
+        let selectedVolumeNumber = volumes[indexPath.row]
+        self.delegate?.allVolumeTableViewControllerWillDismiss(volumeNumber: selectedVolumeNumber)
         navigationController?.popViewController(animated: true)
     }
     
@@ -102,11 +110,59 @@ class AllVolumeTableViewController: UITableViewController {
     
     
     // MARK: private methods
-    private func initializeVolumeList() {
-        for i in 1...57 {
-            let newVolume = Volume()
-            newVolume.volumeNumber = i
-            volumes.append(newVolume)
+    private func loadVolumeListFromServer(completionHandler: @escaping ()->Void) -> Bool {
+        if let urlComponents = URLComponents(string: API.VolumeList.URL) {
+            dataTask?.cancel()
+            
+            guard let url = urlComponents.url else {
+                return false
+            }
+            
+            let handler = { (data: Data?, response:URLResponse?, error:Error?) -> Void in
+                if let error = error {
+                    os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
+                } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                    if self.parseVolumeList(data:data) {
+                        DispatchQueue.main.async {
+                            completionHandler()
+                        }
+                    }
+                }
+                
+                self.dataTask = nil
+            }
+            
+            dataTask = defaultSession.dataTask(with: url, completionHandler: handler)
+            dataTask?.resume()
+            return true
+        } else {
+            return false
         }
+    }
+    
+    private func parseVolumeList(data: Data?) -> Bool{
+        do {
+            guard let data = data else {
+                return false
+            }
+            guard let jsonObj = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSArray else {
+                throw NSError()
+            }
+            if let volumeList = jsonObj as? [Any] {
+                for volumeNumber in volumeList {
+                    if let volumeNumberStr = volumeNumber as? String, let volumeNumberNum = Int(volumeNumberStr) {
+                        volumes.append(volumeNumberNum)
+                    }
+                }
+                
+                volumes = volumes.sorted(by: {$0 > $1})
+            }
+            
+        } catch let error as NSError {
+            print(error.debugDescription)
+            return false
+        }
+        
+        return true
     }
 }

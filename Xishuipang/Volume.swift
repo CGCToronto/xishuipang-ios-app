@@ -31,7 +31,16 @@ class Volume : NSObject {
         super.init()
     }
     
-    // MARK: Implementation
+    // MARK: Operations
+    func clearVolumeContent() {
+        volumeNumber = 0
+        publishYear = 2000
+        publishMonth = 1
+        publishDay = 1
+        volumeTheme = ""
+        articles.removeAll()
+    }
+    
     func loadVolumeFromServer(withVolume volume:Int, progress: @escaping (Float) -> Void, completion: @escaping ()->Void) -> Bool {
         readFromServerResult = false
         if var urlComponents = URLComponents(string: API.ArticleList.URL) {
@@ -78,8 +87,8 @@ class Volume : NSObject {
         }
     }
     
-    // MARK: parsing
-    func parse(data: Data?, articleLoadedHandler: @escaping () -> Void) -> Bool {
+    // MARK: Implementation
+    fileprivate func parse(data: Data?, articleLoadedHandler: @escaping () -> Void) -> Bool {
         do {
             guard let data = data else {
                 return false

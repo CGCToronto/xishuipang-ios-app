@@ -9,5 +9,5 @@
 import Foundation
 
 protocol AllVolumeTableViewControllerDelegate {
-    func allVolumeTableViewControllerWillDismiss(volume: Volume)
+    func allVolumeTableViewControllerWillDismiss(volumeNumber: Int)
 }

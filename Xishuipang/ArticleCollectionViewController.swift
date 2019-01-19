@@ -125,14 +125,6 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
 
         if let articles = selectedVolume?.articles {
             cell.article = articles[indexPath.row]
-            cell.layer.cornerRadius = 12
-            cell.layer.masksToBounds = false
-            cell.layer.shadowColor = UIColor.gray.cgColor
-            cell.layer.shadowOffset = CGSize(width:0, height: 0.5)
-            cell.layer.shadowOpacity = 0.5
-            cell.layer.shadowRadius = 5
-            let path = CGPath(rect: cell.bounds, transform: nil)
-            cell.layer.shadowPath = path
             cell.loadArticleToView()
         }
         

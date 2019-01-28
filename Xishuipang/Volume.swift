@@ -112,6 +112,9 @@ class Volume : NSObject {
         if let volumeNumberStr = volume["volume"] as? String,
             let volumeNumber = Int(volumeNumberStr),
             let categories = volume["table_of_content"] as? [Any] {
+            if let theme = volume["theme"] as? String {
+                self.volumeTheme = theme
+            }
             self.volumeNumber = volumeNumber
             var result = true
             for category in categories {

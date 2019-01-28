@@ -14,6 +14,7 @@
 		E503AE462102347B007C1A0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E503AE442102347B007C1A0C /* LaunchScreen.storyboard */; };
 		E503AE512102347B007C1A0C /* XishuipangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E503AE502102347B007C1A0C /* XishuipangTests.swift */; };
 		E503AE5C2102347B007C1A0C /* XishuipangUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E503AE5B2102347B007C1A0C /* XishuipangUITests.swift */; };
+		E5C5104121FE93C000E9EC04 /* ArticleCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C5104021FE93C000E9EC04 /* ArticleCollectionHeader.swift */; };
 		E5D6028F21D8130700D376FF /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D6028E21D8130700D376FF /* API.swift */; };
 		E5D935CD21E12A2D000A53FF /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D935CC21E12A2D000A53FF /* ImageExtension.swift */; };
 		E5F2CA7221BA127C00976CDE /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7121BA127C00976CDE /* Volume.swift */; };
@@ -56,6 +57,7 @@
 		E503AE572102347B007C1A0C /* XishuipangUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XishuipangUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E503AE5B2102347B007C1A0C /* XishuipangUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XishuipangUITests.swift; sourceTree = "<group>"; };
 		E503AE5D2102347B007C1A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5C5104021FE93C000E9EC04 /* ArticleCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionHeader.swift; sourceTree = "<group>"; };
 		E5D6028E21D8130700D376FF /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		E5D935CC21E12A2D000A53FF /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		E5F2CA7121BA127C00976CDE /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				E5D6028E21D8130700D376FF /* API.swift */,
 				E5F2CA7721BDC9A000976CDE /* AllVolumeTableViewController.swift */,
 				E5F2CA7921BF730800976CDE /* AllVolumeTableViewControllerDelegate.swift */,
+				E5C5104021FE93C000E9EC04 /* ArticleCollectionHeader.swift */,
 				E5F2CA7D21C5747500976CDE /* ArticleCollectionViewCell.swift */,
 				E5F2CA7B21BF73CE00976CDE /* ArticleCollectionViewController.swift */,
 				E503AE3D2102347A007C1A0C /* HomePageViewController.swift */,
@@ -288,6 +291,7 @@
 				E5F2CA7A21BF730800976CDE /* AllVolumeTableViewControllerDelegate.swift in Sources */,
 				E5F2CA7C21BF73CE00976CDE /* ArticleCollectionViewController.swift in Sources */,
 				E503AE3E2102347A007C1A0C /* HomePageViewController.swift in Sources */,
+				E5C5104121FE93C000E9EC04 /* ArticleCollectionHeader.swift in Sources */,
 				E503AE3C2102347A007C1A0C /* AppDelegate.swift in Sources */,
 				E5F2CA7E21C5747500976CDE /* ArticleCollectionViewCell.swift in Sources */,
 				E5D6028F21D8130700D376FF /* API.swift in Sources */,

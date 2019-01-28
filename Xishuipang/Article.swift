@@ -41,6 +41,15 @@ class Article : NSObject {
         self.author = author
     }
     
+    public func getExcerpt() -> String {
+        for line in content {
+            if !isImageTag(line: line) && !isEmpty(line: line) && line.count > 50 {
+                return line
+            }
+        }
+        return ""
+    }
+    
     func loadArticleContentFromServer(completionHandler: @escaping ()->Void) -> Bool {
         if var urlComponents = URLComponents(string: API.Article.URL) {
             dataTask?.cancel()
@@ -110,11 +119,16 @@ class Article : NSObject {
         return line != "" && line.first == "<" && line.last == ">"
     }
     
+    func isEmpty(line: String) -> Bool {
+        return line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    
     func getImageFilenameFromImageTag(line: String) -> String {
         return line.trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
     }
     
     func loadImagesFromServer() {
+        imageDownloadTasks.removeAll();
         for line in content {
             if isImageTag(line: line) {
                 // image tag

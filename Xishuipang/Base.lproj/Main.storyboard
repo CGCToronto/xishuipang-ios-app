@@ -89,7 +89,7 @@
             </objects>
             <point key="canvasLocation" x="134.78260869565219" y="132.06521739130434"/>
         </scene>
-        <!--本期概要-->
+        <!--目录-->
         <scene sceneID="hU0-u6-hhq">
             <objects>
                 <collectionViewController id="YZm-R3-VFD" customClass="ArticleCollectionViewController" customModule="Xishuipang" customModuleProvider="target" sceneMemberID="viewController">
@@ -99,13 +99,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="ch2-v9-MBS">
                             <size key="itemSize" width="376" height="375"/>
-                            <size key="headerReferenceSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="50" height="92"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ArticleCollectionViewCell" id="1Ba-yp-lyi" customClass="ArticleCollectionViewCell" customModule="Xishuipang">
-                                <rect key="frame" x="19" y="60" width="376" height="375"/>
+                                <rect key="frame" x="19" y="102" width="376" height="375"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                     <rect key="frame" x="0.0" y="0.0" width="376" height="375"/>
@@ -114,13 +114,32 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DnI-O9-ye9" userLabel="Cell View">
                                             <rect key="frame" x="0.0" y="0.0" width="376" height="375"/>
                                             <subviews>
+                                                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R2D-66-bzf" userLabel="Preview Text View">
+                                                    <rect key="frame" x="0.0" y="0.0" width="376" height="255"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" staticText="YES"/>
+                                                    </accessibility>
+                                                    <attributedString key="attributedText">
+                                                        <fragment>
+                                                            <mutableString key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" size="20" name=".SFNSDisplay"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="10" firstLineHeadIndent="8" headIndent="8" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gd6-My-S5H" userLabel="Background Image">
                                                     <rect key="frame" x="0.0" y="0.0" width="376" height="375"/>
                                                 </imageView>
-                                                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMA-wQ-N0W">
-                                                    <rect key="frame" x="0.0" y="262.66666666666669" width="376" height="112.33333333333331"/>
+                                                <visualEffectView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMA-wQ-N0W" userLabel="Header Section">
+                                                    <rect key="frame" x="0.0" y="263" width="376" height="112"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="g2G-LA-SG0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="376" height="112.33333333333331"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="376" height="112"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-6A-ry4">
@@ -131,8 +150,8 @@
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="24" id="SRr-4l-vrY"/>
                                                                         </constraints>
-                                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Article Title" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HZI-Y3-IIS">
@@ -140,8 +159,7 @@
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="30" id="9ok-mW-yza"/>
                                                                         </constraints>
-                                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fC2-9f-Jtp">
@@ -149,8 +167,8 @@
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="26.329999999999998" id="s1O-xl-v76"/>
                                                                         </constraints>
-                                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
@@ -167,7 +185,8 @@
                                                             <constraint firstItem="pxA-6A-ry4" firstAttribute="top" secondItem="g2G-LA-SG0" secondAttribute="topMargin" id="diN-dm-yzz"/>
                                                         </constraints>
                                                     </view>
-                                                    <blurEffect style="dark"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <blurEffect style="prominent"/>
                                                 </visualEffectView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -200,21 +219,43 @@
                                     <outlet property="backgroundImage" destination="Gd6-My-S5H" id="8BL-eC-r5n"/>
                                     <outlet property="categoryLabel" destination="7SV-If-465" id="zOp-Ce-wV3"/>
                                     <outlet property="cellView" destination="DnI-O9-ye9" id="nmC-jG-lgz"/>
+                                    <outlet property="previewTextView" destination="R2D-66-bzf" id="O2h-kz-jcP"/>
                                     <outlet property="titleLabel" destination="HZI-Y3-IIS" id="3nv-Zb-9PA"/>
                                     <segue destination="27Y-0w-dPC" kind="show" identifier="ShowArticle" id="lcQ-vC-Jkm"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ArticleCollectionViewHeader" id="dFX-Vd-eEk">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ArticleCollectionHeader" id="dFX-Vd-eEk" customClass="ArticleCollectionHeader" customModule="Xishuipang" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="92"/>
                             <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="溪水旁" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eLC-Oj-Iwm">
+                                    <rect key="frame" x="19" y="8" width="376" height="36"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="主题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xWZ-Wn-u2o" userLabel="Theme Label">
+                                    <rect key="frame" x="19" y="52" width="376" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <connections>
+                                <outlet property="themeLabel" destination="xWZ-Wn-u2o" id="4KI-tj-t2B"/>
+                                <outlet property="volumeLabel" destination="eLC-Oj-Iwm" id="JVb-bI-mXO"/>
+                            </connections>
                         </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="YZm-R3-VFD" id="fMa-e3-wkh"/>
                             <outlet property="delegate" destination="YZm-R3-VFD" id="MV0-lI-08p"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="本期概要" id="WSx-tU-Bga">
+                    <navigationItem key="navigationItem" title="目录" id="WSx-tU-Bga">
+                        <barButtonItem key="backBarButtonItem" title="回到目录" id="ARB-gS-cFp"/>
                         <barButtonItem key="rightBarButtonItem" title="更换期刊" id="KBx-Ey-ZTX">
                             <connections>
                                 <segue destination="9Cx-Iy-MSA" kind="show" identifier="ShowAllVolume" id="nNa-wc-fXO"/>

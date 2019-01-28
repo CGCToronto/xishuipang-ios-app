@@ -11,14 +11,14 @@ import os.log
 
 private let reuseIdentifier = "Cell"
 
-class ArticleCollectionViewController: UICollectionViewController, AllVolumeTableViewControllerDelegate {
+class ArticleCollectionViewController: UICollectionViewController, AllVolumeTableViewControllerDelegate, UICollectionViewDelegateFlowLayout {
     
     // MARK: outlets
     @IBOutlet weak var loadingProgress: UIProgressView!
     
     // MARK: constants
     let articleCollectionViewCellIdentifier = "ArticleCollectionViewCell"
-    let articleCollectionViewHeaderIdentifier = "ArticleCollectionViewHeader"
+    let articleCollectionHeaderIdentifier = "ArticleCollectionHeader"
     
     // MARK: properties
     var selectedVolume : Volume? = Volume()
@@ -133,7 +133,19 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: articleCollectionViewHeaderIdentifier, for: indexPath)
+        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: articleCollectionHeaderIdentifier, for: indexPath) as? ArticleCollectionHeader else {
+            fatalError("The header instance is not a ArticleCollectionHeader.")
+        }
+        
+        if let volume = selectedVolume {
+            if volume.volumeNumber == 0 {
+                headerView.setVolumeTitle(with: "加载中...")
+                headerView.setThemeLabel(with: "")
+            } else {
+                headerView.setVolumeTitlewithVolumeNumber(volume.volumeNumber)
+                headerView.setThemeLabel(with: volume.volumeTheme)
+            }
+        }
         
         return headerView
     }
@@ -142,8 +154,17 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     /*
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
-    }
- */
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: articleCollectionViewCellIdentifier, for: indexPath) as? ArticleCollectionViewCell else {
+            fatalError("The cell instance is not a ArticleCollectionViewCell.")
+        }
+
+        if let articles = selectedVolume?.articles {
+            cell.article = articles[indexPath.row]
+            cell.loadArticleToView()
+        }
+        
+        return cell.frame.size
+    } */
 
     // MARK: UICollectionViewDelegate
 

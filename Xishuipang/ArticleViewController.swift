@@ -45,7 +45,7 @@ class ArticleViewController: UIViewController {
                     imageView.contentMode = .scaleAspectFit
                     contentStackView.addArrangedSubview(imageView)
                 }
-            } else if line != "" {
+            } else if !article.isEmpty(line: line) {
                 let lineTextView = UITextView()
                 lineTextView.isScrollEnabled = false
                 lineTextView.isEditable = false

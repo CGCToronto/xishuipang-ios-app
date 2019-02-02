@@ -36,17 +36,24 @@ class SettingsTableViewController: UITableViewController {
                 fatalError("Destination of ShowCharacterVersion segue must be CharacterVersionTableViewController.")
             }
             characterVersionTableViewController.settings = settings
+        } else if segue.identifier == "ShowFontSizeSetting" {
+            guard let fontSizeTableViewController = segue.destination as? FontSizeTableViewController else {
+                fatalError("Destination of ShowFontSizeSetting segue must be FontSizeTableViewController.")
+            }
+            fontSizeTableViewController.settings = settings
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if settings?.characterVersion == .simplified {
-            characterVersionLabel.text = "简体"
-        } else if settings?.characterVersion == .traditional {
-            characterVersionLabel.text = "繁體"
+        if let settingsObj = settings {
+            if settingsObj.characterVersion == .simplified {
+                characterVersionLabel.text = "简体"
+                fontSizeLabel.text = "\(settingsObj.fontSize)号"
+            } else if settingsObj.characterVersion == .traditional {
+                characterVersionLabel.text = "繁體"
+                fontSizeLabel.text = "\(settingsObj.fontSize)號"
+            }
         }
     }
-    
-
 }

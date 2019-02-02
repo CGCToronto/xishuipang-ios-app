@@ -363,7 +363,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Wak-Tc-AQj" kind="show" id="rdx-mG-H32"/>
+                                            <segue destination="Wak-Tc-AQj" kind="show" identifier="ShowFontSizeSetting" id="rdx-mG-H32"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -450,7 +450,7 @@
         <!--字体大小-->
         <scene sceneID="YFX-R5-d20">
             <objects>
-                <tableViewController id="Wak-Tc-AQj" sceneMemberID="viewController">
+                <tableViewController id="Wak-Tc-AQj" customClass="FontSizeTableViewController" customModule="Xishuipang" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="xfT-5R-PMB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -458,7 +458,7 @@
                         <sections>
                             <tableViewSection headerTitle="字体大小只会影响文章" id="H2q-0t-SJa">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="RmE-J0-daK" style="IBUITableViewCellStyleDefault" id="jnI-gB-RU0">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Size 20 Cell" textLabel="RmE-J0-daK" style="IBUITableViewCellStyleDefault" id="jnI-gB-RU0" customClass="FontSizeTableViewCell" customModule="Xishuipang" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.333333333333343" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jnI-gB-RU0" id="6rO-LO-J56">
@@ -474,8 +474,13 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
+                                                <integer key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="x5t-K4-ZtT" style="IBUITableViewCellStyleDefault" id="g5o-Re-UMm">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Size 25 Cell" textLabel="x5t-K4-ZtT" style="IBUITableViewCellStyleDefault" id="g5o-Re-UMm" customClass="FontSizeTableViewCell" customModule="Xishuipang" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="99.333333333333343" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g5o-Re-UMm" id="fYb-Ca-iXM">
@@ -491,8 +496,13 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
+                                                <integer key="value" value="25"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="yO5-Ee-fsd" rowHeight="52" style="IBUITableViewCellStyleDefault" id="DQN-Bp-wXT">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Size 30 Cell" textLabel="yO5-Ee-fsd" rowHeight="52" style="IBUITableViewCellStyleDefault" id="DQN-Bp-wXT" customClass="FontSizeTableViewCell" customModule="Xishuipang" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="143.33333333333334" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DQN-Bp-wXT" id="i8H-Cu-9H6">
@@ -508,8 +518,13 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
+                                                <integer key="value" value="30"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="xcm-tf-Wvy" rowHeight="57" style="IBUITableViewCellStyleDefault" id="6Lx-eu-fK6">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Size 35 Cell" textLabel="xcm-tf-Wvy" rowHeight="57" style="IBUITableViewCellStyleDefault" id="6Lx-eu-fK6" customClass="FontSizeTableViewCell" customModule="Xishuipang" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="195.33333333333334" width="414" height="57"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Lx-eu-fK6" id="TRz-1F-pI8">
@@ -525,8 +540,13 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
+                                                <integer key="value" value="35"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="rTJ-Gf-X1N" rowHeight="63" style="IBUITableViewCellStyleDefault" id="oOr-lQ-745">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Size 40 Cell" textLabel="rTJ-Gf-X1N" rowHeight="63" style="IBUITableViewCellStyleDefault" id="oOr-lQ-745" customClass="FontSizeTableViewCell" customModule="Xishuipang" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="252.33333333333337" width="414" height="63"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oOr-lQ-745" id="elC-7i-Wud">
@@ -542,8 +562,13 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
+                                                <integer key="value" value="40"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="vZT-nU-RDW" rowHeight="73" style="IBUITableViewCellStyleDefault" id="HCK-Hh-FnQ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Size 50 Cell" textLabel="vZT-nU-RDW" rowHeight="73" style="IBUITableViewCellStyleDefault" id="HCK-Hh-FnQ" customClass="FontSizeTableViewCell" customModule="Xishuipang" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="315.33333333333337" width="414" height="73"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HCK-Hh-FnQ" id="EL3-0y-4eI">
@@ -559,8 +584,13 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
+                                                <integer key="value" value="50"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="Zvx-SD-Z8u" rowHeight="90" style="IBUITableViewCellStyleDefault" id="qyS-CY-yhf">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Size 60 Cell" textLabel="Zvx-SD-Z8u" rowHeight="90" style="IBUITableViewCellStyleDefault" id="qyS-CY-yhf" customClass="FontSizeTableViewCell" customModule="Xishuipang" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="388.33333333333337" width="414" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qyS-CY-yhf" id="0vm-qQ-NoU">
@@ -576,6 +606,11 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize">
+                                                <integer key="value" value="60"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -586,6 +621,15 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="字体大小" id="ioE-fC-OpI"/>
+                    <connections>
+                        <outlet property="size20Cell" destination="jnI-gB-RU0" id="bZ0-dD-cPL"/>
+                        <outlet property="size25Cell" destination="g5o-Re-UMm" id="ea9-Qs-b5W"/>
+                        <outlet property="size30Cell" destination="DQN-Bp-wXT" id="Ldb-ZH-LcB"/>
+                        <outlet property="size35Cell" destination="6Lx-eu-fK6" id="oJn-Pe-Gi0"/>
+                        <outlet property="size40Cell" destination="oOr-lQ-745" id="tGV-9l-Sa0"/>
+                        <outlet property="size50Cell" destination="HCK-Hh-FnQ" id="KmN-cz-Ces"/>
+                        <outlet property="size60Cell" destination="qyS-CY-yhf" id="6wO-hL-INp"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uYl-c0-2hG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

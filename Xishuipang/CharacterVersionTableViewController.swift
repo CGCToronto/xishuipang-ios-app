@@ -11,6 +11,7 @@ import UIKit
 class CharacterVersionTableViewController: UITableViewController {
 
     var settings : Settings?
+    
     @IBOutlet weak var simplifiedCell: UITableViewCell!
     @IBOutlet weak var traditionalCell: UITableViewCell!
     
@@ -35,7 +36,7 @@ class CharacterVersionTableViewController: UITableViewController {
     }
     
     // MARK: Operations
-    func updateSelection() {
+    private func updateSelection() {
         if let settingsInstance = settings{
             if settingsInstance.characterVersion == .simplified {
                 simplifiedCell.accessoryType = .checkmark

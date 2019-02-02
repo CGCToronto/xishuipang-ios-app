@@ -19,6 +19,8 @@
 		E5C5104521FFF4AF00E9EC04 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C5104421FFF4AF00E9EC04 /* Settings.swift */; };
 		E5C5104721FFF61900E9EC04 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C5104621FFF61900E9EC04 /* SettingsTableViewController.swift */; };
 		E5C5104921FFF7F000E9EC04 /* CharacterVersionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C5104821FFF7F000E9EC04 /* CharacterVersionTableViewController.swift */; };
+		E5C5104B22053E9800E9EC04 /* FontSizeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C5104A22053E9800E9EC04 /* FontSizeTableViewController.swift */; };
+		E5C5104D22053F4600E9EC04 /* FontSizeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C5104C22053F4600E9EC04 /* FontSizeTableViewCell.swift */; };
 		E5D6028F21D8130700D376FF /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D6028E21D8130700D376FF /* API.swift */; };
 		E5D935CD21E12A2D000A53FF /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D935CC21E12A2D000A53FF /* ImageExtension.swift */; };
 		E5F2CA7221BA127C00976CDE /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F2CA7121BA127C00976CDE /* Volume.swift */; };
@@ -66,6 +68,8 @@
 		E5C5104421FFF4AF00E9EC04 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		E5C5104621FFF61900E9EC04 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		E5C5104821FFF7F000E9EC04 /* CharacterVersionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterVersionTableViewController.swift; sourceTree = "<group>"; };
+		E5C5104A22053E9800E9EC04 /* FontSizeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeTableViewController.swift; sourceTree = "<group>"; };
+		E5C5104C22053F4600E9EC04 /* FontSizeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeTableViewCell.swift; sourceTree = "<group>"; };
 		E5D6028E21D8130700D376FF /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		E5D935CC21E12A2D000A53FF /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		E5F2CA7121BA127C00976CDE /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
@@ -140,7 +144,9 @@
 				E5D935CC21E12A2D000A53FF /* ImageExtension.swift */,
 				E5C5104621FFF61900E9EC04 /* SettingsTableViewController.swift */,
 				E5C5104821FFF7F000E9EC04 /* CharacterVersionTableViewController.swift */,
+				E5C5104A22053E9800E9EC04 /* FontSizeTableViewController.swift */,
 				E503AE3F2102347A007C1A0C /* Main.storyboard */,
+				E5C5104C22053F4600E9EC04 /* FontSizeTableViewCell.swift */,
 				E5C5104221FE9FB400E9EC04 /* Settings.bundle */,
 				E503AE422102347B007C1A0C /* Assets.xcassets */,
 				E503AE442102347B007C1A0C /* LaunchScreen.storyboard */,
@@ -305,6 +311,7 @@
 				E5F2CA7A21BF730800976CDE /* AllVolumeTableViewControllerDelegate.swift in Sources */,
 				E5F2CA7C21BF73CE00976CDE /* ArticleCollectionViewController.swift in Sources */,
 				E503AE3E2102347A007C1A0C /* HomePageViewController.swift in Sources */,
+				E5C5104D22053F4600E9EC04 /* FontSizeTableViewCell.swift in Sources */,
 				E5C5104721FFF61900E9EC04 /* SettingsTableViewController.swift in Sources */,
 				E5C5104121FE93C000E9EC04 /* ArticleCollectionHeader.swift in Sources */,
 				E503AE3C2102347A007C1A0C /* AppDelegate.swift in Sources */,
@@ -314,6 +321,7 @@
 				E5F2CA7221BA127C00976CDE /* Volume.swift in Sources */,
 				E5D935CD21E12A2D000A53FF /* ImageExtension.swift in Sources */,
 				E5F2CA7421BA12B400976CDE /* Article.swift in Sources */,
+				E5C5104B22053E9800E9EC04 /* FontSizeTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

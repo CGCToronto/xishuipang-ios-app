@@ -12,7 +12,7 @@ class ArticleCollectionHeader: UICollectionReusableView {
     @IBOutlet weak var volumeLabel: UILabel!
     @IBOutlet weak var themeLabel: UILabel!
     
-    func setVolumeTitlewithVolumeNumber(_ volume:Int) {
+    func setVolumeTitlewithVolumeNumber(_ volume:Int, characterVersion: Settings.CharacterVersion) {
         volumeLabel.text = "溪水旁第\(volume)期"
     }
     

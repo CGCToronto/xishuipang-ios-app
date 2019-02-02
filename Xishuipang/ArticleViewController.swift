@@ -18,6 +18,7 @@ class ArticleViewController: UIViewController {
     
     // MARK: properties
     var article = Article()
+    var settings : Settings?
     
     override func viewDidLoad() {
         super.viewDidLoad()

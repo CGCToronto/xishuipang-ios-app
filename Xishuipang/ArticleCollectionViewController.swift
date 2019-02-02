@@ -15,6 +15,8 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     
     // MARK: outlets
     @IBOutlet weak var loadingProgress: UIProgressView!
+    @IBOutlet weak var loadingLabel: UILabel!
+    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
     
     // MARK: constants
     let articleCollectionViewCellIdentifier = "ArticleCollectionViewCell"
@@ -24,9 +26,15 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     var selectedVolume : Volume? = Volume()
     var settings : Settings? = Settings()
     
+    // MARK: strings
+    var strNoInternetTitle : String = ""
+    var strNoInternetMessage : String = ""
+    var strTableOfContent : String = ""
+    
     // MARK: event handlers
     func volumeLoadedHandler() {
         self.collectionView?.reloadData()
+        hideLoadingLabelAndSpinner()
     }
     
     func progressHandler(progress: Float) {
@@ -56,22 +64,24 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
             
             os_log("App is offline", log: .default, type: .debug)
         } */
-        
-        loadingProgress?.setProgress(0.0, animated: true)
-        
-        selectedVolume?.loadVolumeFromServer(withVolume: 57, progress: progressHandler, completion: volumeLoadedHandler)
     }
     
-    private func getSavedVolumeFromDisk() -> Volume? {
-        // load the opened volume from the user in this function.
-        // to be implemented
-        return nil
-    }
-    
-    private func getLatestVolumeFromServer() -> Volume? {
-        // return the latest volume from server in this function.
-        // to be implemented
-        return nil
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let settingsInstance = settings {
+            if settingsInstance.characterVersion == .simplified {
+                convertStrToSimplifiedCharacter()
+            } else if settingsInstance.characterVersion == .traditional {
+                convertStrToTraditionalCharacter()
+            }
+            updateViewWithNewStr()
+        }
+        
+        if let volumeNumber = settings?.selectedVolumeNumber, let characterVersion = settings?.characterVersion, let volume = selectedVolume {
+            if volume.volumeNumber != volumeNumber || volume.characterVersion != characterVersion {
+                refreshContent(volumeNumber: volumeNumber, characterVersion: characterVersion)
+            }
+        }
     }
     
     // MARK: - Navigation
@@ -85,6 +95,9 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
                 os_log("Destination view controller is not AllVolumeTableViewController", log: .default, type: .debug)
                 return
             }
+            if let selectedVolumeNumber = settings?.selectedVolumeNumber {
+                allVolumeViewController.selectedVolume = selectedVolumeNumber
+            }
             allVolumeViewController.delegate = self
         } else if segue.identifier == "ShowArticle" {
             guard let articleViewController = segue.destination as? ArticleViewController else {
@@ -93,7 +106,7 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
             guard let cell = sender as? ArticleCollectionViewCell else {
                 fatalError("Sender is not a cell.")
             }
-            
+            articleViewController.settings = settings
             if let article = cell.article {
                 articleViewController.article = article
             }
@@ -146,10 +159,14 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         
         if let volume = selectedVolume {
             if volume.volumeNumber == 0 {
-                headerView.setVolumeTitle(with: "加载中...")
+                headerView.setVolumeTitle(with: "")
                 headerView.setThemeLabel(with: "")
             } else {
-                headerView.setVolumeTitlewithVolumeNumber(volume.volumeNumber)
+                if let characterVersion = settings?.characterVersion {
+                    headerView.setVolumeTitlewithVolumeNumber(volume.volumeNumber, characterVersion: characterVersion)
+                } else {
+                    headerView.setVolumeTitlewithVolumeNumber(volume.volumeNumber, characterVersion: .simplified)
+                }
                 headerView.setThemeLabel(with: volume.volumeTheme)
             }
         }
@@ -157,57 +174,72 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         return headerView
     }
     
-    // MARK: UICollectionViewDelegateFlowLayout
-    /*
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
-    {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: articleCollectionViewCellIdentifier, for: indexPath) as? ArticleCollectionViewCell else {
-            fatalError("The cell instance is not a ArticleCollectionViewCell.")
-        }
-
-        if let articles = selectedVolume?.articles {
-            cell.article = articles[indexPath.row]
-            cell.loadArticleToView()
-        }
-        
-        return cell.frame.size
-    } */
-
-    // MARK: UICollectionViewDelegate
-
-    
     // Uncomment this method to specify if the specified item should be highlighted during tracking
     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-
-    
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return true
     }
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
     
     // MARK: AllVolumeTableViewControllerDelegate handler
     func allVolumeTableViewControllerWillDismiss(volumeNumber: Int) {
+        if let settingsInstance = settings {
+            settingsInstance.selectedVolumeNumber = volumeNumber
+        }
+        if let characterVersion = settings?.characterVersion {
+            refreshContent(volumeNumber: volumeNumber, characterVersion: characterVersion)
+        }
+    }
+    
+    // MARK: private functions
+    private func refreshContent(volumeNumber: Int, characterVersion: Settings.CharacterVersion) {
         selectedVolume?.clearVolumeContent()
         self.collectionView?.reloadData()
+        showLoadingLabelAndSpinner()
         loadingProgress?.setProgress(0.0, animated: true)
-        selectedVolume?.loadVolumeFromServer(withVolume: volumeNumber, progress: progressHandler, completion: volumeLoadedHandler)
+        let result = selectedVolume?.loadVolumeFromServer(withVolume: volumeNumber, characterVersion: characterVersion, progress: progressHandler, completion: volumeLoadedHandler)
+        
+        if result == false {
+            let noInternetAlert = UIAlertController(title: strNoInternetTitle, message: strNoInternetMessage, preferredStyle: .alert)
+            
+            self.present(noInternetAlert, animated: true, completion: nil)
+        }
+    }
+    
+    private func hideLoadingLabelAndSpinner() {
+        loadingLabel.isHidden = true
+        loadingSpinner.stopAnimating()
+    }
+    
+    private func showLoadingLabelAndSpinner() {
+        loadingLabel.isHidden = false
+        loadingSpinner.startAnimating()
+    }
+    
+    private func getSavedVolumeFromDisk() -> Volume? {
+        // load the opened volume from the user in this function.
+        // to be implemented
+        return nil
+    }
+    
+    private func getLatestVolumeFromServer() -> Volume? {
+        // return the latest volume from server in this function.
+        // to be implemented
+        return nil
+    }
+    
+    private func convertStrToSimplifiedCharacter() {
+        strTableOfContent = "目录"
+    }
+    
+    private func convertStrToTraditionalCharacter() {
+        strTableOfContent = "目錄"
+    }
+    
+    private func updateViewWithNewStr() {
+        navigationItem.title = strTableOfContent
     }
 }

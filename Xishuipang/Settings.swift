@@ -12,10 +12,7 @@ class Settings : NSObject {
     enum CharacterVersion {
         case simplified, traditional
     }
-    
     var characterVersion : CharacterVersion = .simplified
     var fontSize : Int = 20
-    
-    override init() {
-    }
+    var selectedVolumeNumber : Int = 57
 }

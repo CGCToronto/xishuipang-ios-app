@@ -13,6 +13,7 @@ class Volume : NSObject {
 
     // MARK: properties
     var volumeNumber: Int = 0
+    var characterVersion: Settings.CharacterVersion = .simplified
     var publishYear: Int = 2000
     var publishMonth: Int = 1
     var publishDay: Int = 1
@@ -34,6 +35,7 @@ class Volume : NSObject {
     // MARK: Operations
     func clearVolumeContent() {
         volumeNumber = 0
+        characterVersion = .simplified
         publishYear = 2000
         publishMonth = 1
         publishDay = 1
@@ -41,11 +43,16 @@ class Volume : NSObject {
         articles.removeAll()
     }
     
-    func loadVolumeFromServer(withVolume volume:Int, progress: @escaping (Float) -> Void, completion: @escaping ()->Void) -> Bool {
+    func loadVolumeFromServer(withVolume volume:Int, characterVersion: Settings.CharacterVersion, progress: @escaping (Float) -> Void, completion: @escaping ()->Void) -> Bool {
         readFromServerResult = false
         if var urlComponents = URLComponents(string: API.ArticleList.URL) {
             dataTask?.cancel()
-            urlComponents.query = API.ArticleList.Query(volume: volume, character: "simplified")
+            var character = "simplified"
+            if characterVersion == .traditional {
+                character = "traditional"
+            }
+            self.characterVersion = characterVersion
+            urlComponents.query = API.ArticleList.Query(volume: volume, character: character)
             
             guard let url = urlComponents.url else {
                 return false

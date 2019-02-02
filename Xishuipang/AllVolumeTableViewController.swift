@@ -14,6 +14,7 @@ class AllVolumeTableViewController: UITableViewController {
     // MARK: properties
     var volumes = [Int]()
     var delegate : AllVolumeTableViewControllerDelegate?
+    var selectedVolume: Int = 1
     
     // MARK: URLSession
     private let defaultSession = URLSession(configuration: .default)
@@ -22,7 +23,7 @@ class AllVolumeTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.clearsSelectionOnViewWillAppear = false
+        self.clearsSelectionOnViewWillAppear = true
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -52,6 +53,12 @@ class AllVolumeTableViewController: UITableViewController {
 
         // Configure the cell...table
         cell.textLabel?.text = "第\(volumes[indexPath.row])期"
+        if volumes[indexPath.row] == selectedVolume {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
+        
         return cell
     }
     
@@ -61,43 +68,6 @@ class AllVolumeTableViewController: UITableViewController {
         self.delegate?.allVolumeTableViewControllerWillDismiss(volumeNumber: selectedVolumeNumber)
         navigationController?.popViewController(animated: true)
     }
-    
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
     // MARK: - Navigation
 

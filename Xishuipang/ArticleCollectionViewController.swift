@@ -22,6 +22,7 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     
     // MARK: properties
     var selectedVolume : Volume? = Volume()
+    var settings : Settings? = Settings()
     
     // MARK: event handlers
     func volumeLoadedHandler() {
@@ -79,7 +80,7 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        if segue.identifier == "ShowAllVolume" {
+        if segue.identifier == "ShowAllVolumes" {
             guard let allVolumeViewController = segue.destination as? AllVolumeTableViewController else {
                 os_log("Destination view controller is not AllVolumeTableViewController", log: .default, type: .debug)
                 return
@@ -96,6 +97,12 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
             if let article = cell.article {
                 articleViewController.article = article
             }
+        } else if segue.identifier == "ShowSettings" {
+            guard let settingsViewController = segue.destination as? SettingsTableViewController else {
+                fatalError("Destination of ShowSettings segue must be SettingsTableViewController.")
+            }
+            
+            settingsViewController.settings = settings
         }
     }
  

@@ -31,7 +31,7 @@ class ArticleViewController: UIViewController {
         super.viewWillAppear(animated)
         if let article = article, let settings = settings {
             if article.characterVersion != settings.characterVersion {
-                article.characterVersion = settings.characterVersion
+                article.changeArticleCharacterVersion(settings.characterVersion)
                 // Change article id here to properly get the correct article.
                 article.loadArticleContentFromServer {
                     DispatchQueue.main.async {

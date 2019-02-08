@@ -43,6 +43,20 @@ class Article : NSObject {
         self.author = author
     }
     
+    public func changeArticleCharacterVersion(_ characterVersion:Settings.CharacterVersion) -> Bool {
+        let lastIDCharacter = id.last
+        if lastIDCharacter == "s" && self.characterVersion == .simplified && characterVersion == .traditional {
+            id = id.dropLast() + "t"
+            self.characterVersion = characterVersion
+            return true
+        } else if lastIDCharacter == "t" && self.characterVersion == .traditional && characterVersion == .simplified {
+            id = id.dropLast() + "s"
+            self.characterVersion = characterVersion
+            return true
+        }
+        return false
+    }
+    
     public func getExcerpt() -> String {
         for line in content {
             if !isImageTag(line: line) && !isEmpty(line: line) && line.count > 50 {
@@ -103,6 +117,7 @@ class Article : NSObject {
     }
     
     fileprivate func parse(article: [String: Any]) -> Bool {
+        content.removeAll()
         if let contentArray = article["content"] as? [Any] {
             for sentence in contentArray {
                 if let sentenceStr = sentence as? String {

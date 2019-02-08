@@ -142,7 +142,7 @@
                                                     </accessibility>
                                                     <attributedString key="attributedText">
                                                         <fragment>
-                                                            <mutableString key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                            <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                             <attributes>
                                                                 <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <font key="NSFont" size="20" name=".SFNSDisplay"/>
@@ -156,9 +156,9 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="376" height="375"/>
                                                 </imageView>
                                                 <visualEffectView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMA-wQ-N0W" userLabel="Header Section">
-                                                    <rect key="frame" x="0.0" y="263" width="376" height="112"/>
+                                                    <rect key="frame" x="0.0" y="262.33333333333331" width="376" height="112.66666666666669"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="g2G-LA-SG0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="376" height="112"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="376" height="112.66666666666669"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-6A-ry4">
@@ -717,7 +717,7 @@
                     <navigationItem key="navigationItem" title="文章" id="PyB-6G-LTb">
                         <barButtonItem key="rightBarButtonItem" title="设置" id="tow-yQ-jXC">
                             <connections>
-                                <segue destination="apP-A8-RYC" kind="show" id="aPb-LF-UkG"/>
+                                <segue destination="apP-A8-RYC" kind="show" identifier="ShowSettings" id="aPb-LF-UkG"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -755,6 +755,6 @@
         <image name="Main Page Background" width="2128" height="1416"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="aPb-LF-UkG"/>
+        <segue reference="GfF-tp-EKb"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -158,7 +158,7 @@ class Volume : NSObject {
         if let title = article["title"] as? String,
             let author = article["author"] as? String,
             let id = article["id"] as? String {
-            let newArticle = Article(volume: volumeNumber, id: id, title: title, category: category, author: author)
+            let newArticle = Article(volume: volumeNumber, characterVersion: characterVersion, id: id, title: title, category: category, author: author)
             if newArticle.loadArticleContentFromServer(completionHandler: articleLoadedHandler) {
                 articles.append(newArticle)
             }

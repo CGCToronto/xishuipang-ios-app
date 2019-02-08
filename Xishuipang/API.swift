@@ -18,8 +18,8 @@ struct API {
     
     struct Article {
         static let URL = "http://www.xishuipang.com/article/get"
-        static func Query(volume: Int, id: String, character: String) -> String {
-            return "volume=\(volume)&name=\(id)&character=\(character)"
+        static func Query(volume: Int, id: String) -> String {
+            return "volume=\(volume)&name=\(id)"
         }
     }
     

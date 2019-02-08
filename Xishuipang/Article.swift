@@ -14,6 +14,7 @@ class Article : NSObject {
     
     // MARK: properties
     var volume = 0
+    var characterVersion : Settings.CharacterVersion = .simplified
     var id = ""
     var title = ""
     var category = ""
@@ -32,9 +33,10 @@ class Article : NSObject {
         super.init()
     }
     
-    convenience init(volume: Int, id: String, title: String, category: String, author: String) {
+    convenience init(volume: Int, characterVersion: Settings.CharacterVersion, id: String, title: String, category: String, author: String) {
         self.init()
         self.volume = volume
+        self.characterVersion = characterVersion
         self.id = id
         self.title = title
         self.category = category
@@ -53,7 +55,7 @@ class Article : NSObject {
     func loadArticleContentFromServer(completionHandler: @escaping ()->Void) -> Bool {
         if var urlComponents = URLComponents(string: API.Article.URL) {
             dataTask?.cancel()
-            urlComponents.query = API.Article.Query(volume: volume, id: id, character: "simplified")
+            urlComponents.query = API.Article.Query(volume: volume, id: id)
         
             guard let url = urlComponents.url else {
                 return false

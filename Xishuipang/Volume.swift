@@ -43,7 +43,7 @@ class Volume : NSObject {
         articles.removeAll()
     }
     
-    func loadVolumeFromServer(withVolume volume:Int, characterVersion: Settings.CharacterVersion, progress: @escaping (Float) -> Void, completion: @escaping ()->Void) -> Bool {
+    func loadVolumeFromServer(withVolume volume:Int, characterVersion: Settings.CharacterVersion, progress: @escaping (Float) -> Void, completion: @escaping ()->Void, imageLoadedHandler: @escaping (_ indexInVolume: Int)->Void) -> Bool {
         readFromServerResult = false
         if var urlComponents = URLComponents(string: API.ArticleList.URL) {
             dataTask?.cancel()
@@ -78,7 +78,7 @@ class Volume : NSObject {
                         }
                     }
                     self.numLoadedArticles = 0
-                    if self.parse(data:data, articleLoadedHandler:articleLoadedHandler) {
+                    if self.parse(data:data, articleLoadedHandler, imageLoadedHandler) {
                         self.readFromServerResult = true
                     }
                 }
@@ -95,7 +95,9 @@ class Volume : NSObject {
     }
     
     // MARK: Implementation
-    fileprivate func parse(data: Data?, articleLoadedHandler: @escaping () -> Void) -> Bool {
+    fileprivate func parse(data: Data?,
+                           _ articleLoadedHandler: @escaping () -> Void,
+                           _ imageLoadedHandler: @escaping (_ indexInVolume: Int) -> Void) -> Bool {
         do {
             guard let data = data else {
                 return false
@@ -104,7 +106,7 @@ class Volume : NSObject {
                 throw NSError()
             }
             if let jsonDictionary = jsonObj as? [String:Any] {
-                return parse(volume:jsonDictionary, articleLoadedHandler:articleLoadedHandler)
+                return parse(volume:jsonDictionary, articleLoadedHandler, imageLoadedHandler)
             }
             
         } catch let error as NSError {
@@ -115,7 +117,9 @@ class Volume : NSObject {
         return true
     }
     
-    fileprivate func parse(volume: [String:Any], articleLoadedHandler: @escaping () -> Void) -> Bool {
+    fileprivate func parse(volume: [String:Any],
+                           _ articleLoadedHandler: @escaping () -> Void,
+                           _ imageLoadedHandler: @escaping (_ indexInVolume: Int) -> Void) -> Bool {
         if let volumeNumberStr = volume["volume"] as? String,
             let volumeNumber = Int(volumeNumberStr),
             let categories = volume["table_of_content"] as? [Any] {
@@ -126,7 +130,7 @@ class Volume : NSObject {
             var result = true
             for category in categories {
                 if let categoryDictionary = category as? [String:Any] {
-                    result = result && parse(category:categoryDictionary, articleLoadedHandler:articleLoadedHandler)
+                    result = result && parse(category:categoryDictionary, articleLoadedHandler, imageLoadedHandler)
                 } else {
                     return false
                 }
@@ -137,13 +141,15 @@ class Volume : NSObject {
         }
     }
     
-    fileprivate func parse(category: [String:Any], articleLoadedHandler: @escaping () -> Void) -> Bool {
+    fileprivate func parse(category: [String:Any],
+                           _ articleLoadedHandler: @escaping () -> Void,
+                           _ imageLoadedHandler: @escaping (_ indexInVolume: Int) -> Void) -> Bool {
         if let categoryName = category["category"] as? String,
             let articleCollection = category["articles"] as? [Any] {
             var result = true
             for article in articleCollection {
                 if let articleDictionary = article as? [String:Any]{
-                    result = result && parse(article:articleDictionary, category: categoryName, articleLoadedHandler:articleLoadedHandler)
+                    result = result && parse(article:articleDictionary, category: categoryName, articleLoadedHandler, imageLoadedHandler)
                 } else {
                     return false
                 }
@@ -154,12 +160,16 @@ class Volume : NSObject {
         }
     }
     
-    fileprivate func parse(article: [String:Any], category: String, articleLoadedHandler: @escaping () -> Void) -> Bool {
+    fileprivate func parse(article: [String:Any],
+                           category: String,
+                           _ articleLoadedHandler: @escaping () -> Void,
+                           _ imageLoadedHandler: @escaping (_ indexInVolume: Int) -> Void) -> Bool {
         if let title = article["title"] as? String,
             let author = article["author"] as? String,
             let id = article["id"] as? String {
             let newArticle = Article(volume: volumeNumber, characterVersion: characterVersion, id: id, title: title, category: category, author: author)
-            if newArticle.loadArticleContentFromServer(completionHandler: articleLoadedHandler) {
+            let indexInVolume = articles.count
+            if newArticle.loadArticleContentFromServer(indexInVolume: indexInVolume, completionHandler: articleLoadedHandler, imageLoadedHandler: imageLoadedHandler) {
                 articles.append(newArticle)
             }
             return true

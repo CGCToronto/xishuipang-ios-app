@@ -34,11 +34,17 @@ class ArticleViewController: UIViewController {
             if article.characterVersion != settings.characterVersion {
                 article.changeArticleCharacterVersion(settings.characterVersion)
                 // Change article id here to properly get the correct article.
-                article.loadArticleContentFromServer {
+                let completionHandler = {
                     DispatchQueue.main.async {
                         self.loadArticleContentToView()
                     }
                 }
+                
+                let imageLoadedHandler = {
+                    (_ indexInVolume: Int) -> Void in
+                }
+                
+                article.loadArticleContentFromServer(indexInVolume: 0, completionHandler: completionHandler, imageLoadedHandler: imageLoadedHandler)
             } else if fontSize != settings.fontSize {
                 loadArticleContentToView()
             }

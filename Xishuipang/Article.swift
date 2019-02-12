@@ -66,7 +66,7 @@ class Article : NSObject {
         return ""
     }
     
-    func loadArticleContentFromServer(completionHandler: @escaping ()->Void) -> Bool {
+    func loadArticleContentFromServer(indexInVolume: Int, completionHandler: @escaping ()->Void, imageLoadedHandler: @escaping (_ indexInVolume: Int)->Void) -> Bool {
         if var urlComponents = URLComponents(string: API.Article.URL) {
             dataTask?.cancel()
             urlComponents.query = API.Article.Query(volume: volume, id: id)
@@ -80,7 +80,7 @@ class Article : NSObject {
                     os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
                 } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
                     if self.parse(data:data) {
-                        self.loadImagesFromServer()
+                        self.loadImagesFromServer(indexInVolume: indexInVolume, imageLoadedHandler: imageLoadedHandler)
                         completionHandler()
                     }
                 }
@@ -144,7 +144,7 @@ class Article : NSObject {
         return line.trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
     }
     
-    func loadImagesFromServer() {
+    func loadImagesFromServer(indexInVolume: Int, imageLoadedHandler: @escaping (_ indexInVolume: Int) -> Void) {
         imageDownloadTasks.removeAll();
         for line in content {
             if isImageTag(line: line) {
@@ -152,17 +152,20 @@ class Article : NSObject {
                 let imageFileName = getImageFilenameFromImageTag(line: line)
                 if let urlComponents = URLComponents(string: API.Image.URL + "/" + API.Image.Query(volume: volume, imageFileName: imageFileName)) {
                     if let url = urlComponents.url {
-                        let imageLoadedHandler = {(data: Data?, response:URLResponse?, error:Error?) -> Void in
+                        let imageDownloadHandler = {(data: Data?, response:URLResponse?, error:Error?) -> Void in
                             if let error = error {
                                 os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
                             } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200, let url = response.url {
                                 let imageName = url.lastPathComponent
                                 let newImage = UIImage(data:data)
                                 self.images[imageName] = newImage
+                                DispatchQueue.main.async {
+                                    imageLoadedHandler(indexInVolume)
+                                }
                             }
                         }
                         
-                        let downloadImgTask = defaultSession.dataTask(with: url, completionHandler: imageLoadedHandler)
+                        let downloadImgTask = defaultSession.dataTask(with: url, completionHandler: imageDownloadHandler)
                         downloadImgTask.resume()
                         imageDownloadTasks.append(downloadImgTask)
                     }

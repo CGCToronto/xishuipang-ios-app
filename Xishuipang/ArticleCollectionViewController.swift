@@ -31,16 +31,6 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     var strNoInternetMessage : String = ""
     var strTableOfContent : String = ""
     
-    // MARK: event handlers
-    func volumeLoadedHandler() {
-        self.collectionView?.reloadData()
-        hideLoadingLabelAndSpinner()
-    }
-    
-    func progressHandler(progress: Float) {
-        self.loadingProgress?.setProgress(progress, animated: true)
-    }
-    
     // MARK: functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -200,7 +190,7 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         self.collectionView?.reloadData()
         showLoadingLabelAndSpinner()
         loadingProgress?.setProgress(0.0, animated: true)
-        let result = selectedVolume?.loadVolumeFromServer(withVolume: volumeNumber, characterVersion: characterVersion, progress: progressHandler, completion: volumeLoadedHandler)
+        let result = selectedVolume?.loadVolumeFromServer(withVolume: volumeNumber, characterVersion: characterVersion, progress: progressHandler, completion: volumeLoadedHandler, imageLoadedHandler: imageLoadedHandler)
         
         if result == false {
             let noInternetAlert = UIAlertController(title: strNoInternetTitle, message: strNoInternetMessage, preferredStyle: .alert)
@@ -241,5 +231,24 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     
     private func updateViewWithNewStr() {
         navigationItem.title = strTableOfContent
+    }
+    
+    // MARK: event handlers
+    private func volumeLoadedHandler() {
+        self.collectionView?.reloadData()
+        hideLoadingLabelAndSpinner()
+    }
+    
+    private func progressHandler(progress: Float) {
+        self.loadingProgress?.setProgress(progress, animated: true)
+    }
+    
+    func imageLoadedHandler(_ articleIndex: Int) {
+        var indices = [IndexPath]()
+        let item = IndexPath(item: articleIndex, section: 0)
+        if let _ = self.collectionView?.cellForItem(at: item) {
+            indices.append(item)
+            self.collectionView?.reloadItems(at: indices)
+        }
     }
 }

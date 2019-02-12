@@ -156,9 +156,9 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="376" height="375"/>
                                                 </imageView>
                                                 <visualEffectView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMA-wQ-N0W" userLabel="Header Section">
-                                                    <rect key="frame" x="0.0" y="262.33333333333331" width="376" height="112.66666666666669"/>
+                                                    <rect key="frame" x="0.0" y="262.66666666666669" width="376" height="112.33333333333331"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="g2G-LA-SG0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="376" height="112.66666666666669"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="376" height="112"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-6A-ry4">
@@ -755,6 +755,6 @@
         <image name="Main Page Background" width="2128" height="1416"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="GfF-tp-EKb"/>
+        <segue reference="aPb-LF-UkG"/>
     </inferredMetricsTieBreakers>
 </document>

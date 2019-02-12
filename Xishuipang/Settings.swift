@@ -13,6 +13,6 @@ class Settings : NSObject {
         case simplified, traditional
     }
     var characterVersion : CharacterVersion = .simplified
-    var fontSize : Int = 20
+    var fontSize : Int = 30
     var selectedVolumeNumber : Int = 57
 }

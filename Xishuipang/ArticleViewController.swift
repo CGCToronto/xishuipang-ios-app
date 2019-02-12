@@ -19,6 +19,7 @@ class ArticleViewController: UIViewController {
     // MARK: properties
     var article : Article?
     var settings : Settings?
+    var fontSize : Int = 30
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,8 @@ class ArticleViewController: UIViewController {
                         self.loadArticleContentToView()
                     }
                 }
+            } else if fontSize != settings.fontSize {
+                loadArticleContentToView()
             }
         }
     }
@@ -46,9 +49,19 @@ class ArticleViewController: UIViewController {
     func loadArticleContentToView() {
         clearContentStack()
         if let article = article {
+            
+            if let settings = settings {
+                fontSize = settings.fontSize
+            }
+            let font = UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(fontSize))
+            
             categoryLabel.text = article.category
             titleLabel.text = article.title
             authorLabel.text = article.author
+            
+            categoryLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle).withSize(CGFloat(fontSize))
+            titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle).withSize(CGFloat(fontSize + 5))
+            authorLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle).withSize(CGFloat(fontSize - 5))
             
             for line in article.content {
                 if article.isImageTag(line: line) {
@@ -66,7 +79,7 @@ class ArticleViewController: UIViewController {
                     let lineTextView = UITextView()
                     lineTextView.isScrollEnabled = false
                     lineTextView.isEditable = false
-                    let font = UIFont.preferredFont(forTextStyle: .body).withSize(20)
+
                     let paragraphStyle = NSMutableParagraphStyle()
                     paragraphStyle.lineSpacing = 8
                     let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font]

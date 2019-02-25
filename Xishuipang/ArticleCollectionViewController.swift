@@ -180,9 +180,10 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         if let settingsInstance = settings {
             settingsInstance.selectedVolumeNumber = volumeNumber
         }
+        /*
         if let characterVersion = settings?.characterVersion {
             refreshContent(volumeNumber: volumeNumber, characterVersion: characterVersion)
-        }
+        }*/
     }
     
     // MARK: private functions

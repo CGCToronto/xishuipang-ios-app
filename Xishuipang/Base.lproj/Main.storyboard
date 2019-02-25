@@ -107,15 +107,15 @@
                             <rect key="frame" x="0.0" y="-64" width="414" height="736"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="加载中..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1OS-ZK-Uky">
-                                    <rect key="frame" x="174" y="358" width="66" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="加载中..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1OS-ZK-Uky">
+                                    <rect key="frame" x="20" y="358" width="374" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tTN-ki-nyD">
-                                    <rect key="frame" x="146" y="358" width="20" height="20"/>
+                                    <rect key="frame" x="197" y="330" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                             </subviews>
@@ -156,7 +156,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="376" height="375"/>
                                                 </imageView>
                                                 <visualEffectView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMA-wQ-N0W" userLabel="Header Section">
-                                                    <rect key="frame" x="0.0" y="262.66666666666669" width="376" height="112.33333333333331"/>
+                                                    <rect key="frame" x="0.0" y="263" width="376" height="112"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="g2G-LA-SG0">
                                                         <rect key="frame" x="0.0" y="0.0" width="376" height="112"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -755,6 +755,6 @@
         <image name="Main Page Background" width="2128" height="1416"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="aPb-LF-UkG"/>
+        <segue reference="GfF-tp-EKb"/>
     </inferredMetricsTieBreakers>
 </document>

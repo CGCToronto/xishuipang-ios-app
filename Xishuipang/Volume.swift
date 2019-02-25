@@ -43,7 +43,7 @@ class Volume : NSObject {
         articles.removeAll()
     }
     
-    func loadVolumeFromServer(withVolume volume:Int, characterVersion: Settings.CharacterVersion, progress: @escaping (Float) -> Void, completion: @escaping ()->Void, imageLoadedHandler: @escaping (_ indexInVolume: Int)->Void) -> Bool {
+    func loadVolumeFromServer(withVolume volume:Int, characterVersion: Settings.CharacterVersion, progress: @escaping (Float) -> Void, completion: @escaping (Bool,String)->Void, imageLoadedHandler: @escaping (_ indexInVolume: Int)->Void) -> Bool {
         readFromServerResult = false
         if var urlComponents = URLComponents(string: API.ArticleList.URL) {
             dataTask?.cancel()
@@ -62,27 +62,41 @@ class Volume : NSObject {
                 if let error = error {
                     os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
                     self.readFromServerResult = false
-                } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
-                    let articleLoadedHandler = {
-                        self.numLoadedArticles = self.numLoadedArticles + 1
-                        let progressPercentage = Float(self.numLoadedArticles) / Float(self.articles.count)
-                        if progressPercentage < 1.0 {
-                            DispatchQueue.main.async {
-                                progress(progressPercentage)
+                    DispatchQueue.main.async {
+                        completion(false, "网络有误，请确保您的设备连接无线网络。");
+                    }
+                } else if let response = response as? HTTPURLResponse {
+                    if response.statusCode == 200 {
+                        if let data = data {
+                            let articleLoadedHandler = {
+                                self.numLoadedArticles = self.numLoadedArticles + 1
+                                let progressPercentage = Float(self.numLoadedArticles) / Float(self.articles.count)
+                                if progressPercentage < 1.0 {
+                                    DispatchQueue.main.async {
+                                        progress(progressPercentage)
+                                    }
+                                } else {
+                                    DispatchQueue.main.async {
+                                        progress(progressPercentage)
+                                        completion(true, "")
+                                    }
+                                }
                             }
-                        } else {
-                            DispatchQueue.main.async {
-                                progress(progressPercentage)
-                                completion()
+                            self.numLoadedArticles = 0
+                            if self.parse(data:data, articleLoadedHandler, imageLoadedHandler) {
+                                self.readFromServerResult = true
+                            } else {
+                                DispatchQueue.main.async {
+                                    completion(false, "本期繁體版本還未上傳，敬請諒解。");
+                                }
                             }
                         }
-                    }
-                    self.numLoadedArticles = 0
-                    if self.parse(data:data, articleLoadedHandler, imageLoadedHandler) {
-                        self.readFromServerResult = true
+                    } else if response.statusCode == 404 {
+                        DispatchQueue.main.async {
+                            completion(false, "无法找到页面。");
+                        }
                     }
                 }
-                
                 self.dataTask = nil
             }
             

@@ -30,6 +30,7 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     var strNoInternetTitle : String = ""
     var strNoInternetMessage : String = ""
     var strTableOfContent : String = ""
+    var strLoading : String = ""
     
     // MARK: functions
     override func viewDidLoad() {
@@ -188,7 +189,7 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     private func refreshContent(volumeNumber: Int, characterVersion: Settings.CharacterVersion) {
         selectedVolume?.clearVolumeContent()
         self.collectionView?.reloadData()
-        showLoadingLabelAndSpinner()
+        resetLoadingLabelAndSpinner()
         loadingProgress?.setProgress(0.0, animated: true)
         let result = selectedVolume?.loadVolumeFromServer(withVolume: volumeNumber, characterVersion: characterVersion, progress: progressHandler, completion: volumeLoadedHandler, imageLoadedHandler: imageLoadedHandler)
         
@@ -204,7 +205,8 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         loadingSpinner.stopAnimating()
     }
     
-    private func showLoadingLabelAndSpinner() {
+    private func resetLoadingLabelAndSpinner() {
+        loadingLabel.text = strLoading;
         loadingLabel.isHidden = false
         loadingSpinner.startAnimating()
     }
@@ -223,10 +225,12 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     
     private func convertStrToSimplifiedCharacter() {
         strTableOfContent = "目录"
+        strLoading = "加载中..."
     }
     
     private func convertStrToTraditionalCharacter() {
         strTableOfContent = "目錄"
+        strLoading = "加載中..."
     }
     
     private func updateViewWithNewStr() {
@@ -234,9 +238,14 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     }
     
     // MARK: event handlers
-    private func volumeLoadedHandler() {
-        self.collectionView?.reloadData()
-        hideLoadingLabelAndSpinner()
+    private func volumeLoadedHandler(isSuccessful:Bool, message:String) {
+        if isSuccessful {
+            self.collectionView?.reloadData()
+            hideLoadingLabelAndSpinner()
+        } else {
+            loadingSpinner.stopAnimating()
+            loadingLabel.text = message;
+        }
     }
     
     private func progressHandler(progress: Float) {

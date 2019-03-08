@@ -29,6 +29,7 @@ class FontSizeTableViewController: UITableViewController {
         cells?.append(size20Cell)
         cells?.append(size25Cell)
         cells?.append(size30Cell)
+        cells?.append(size35Cell)
         cells?.append(size40Cell)
         cells?.append(size50Cell)
         cells?.append(size60Cell)

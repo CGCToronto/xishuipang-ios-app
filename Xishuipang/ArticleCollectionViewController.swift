@@ -25,6 +25,9 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     // MARK: properties
     var selectedVolume : Volume? = Volume()
     var settings : Settings? = Settings()
+    let defaultCellWidth: CGFloat = 350.0
+    let defaultCellHeight: CGFloat = 375.0
+    let minimumSectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
     // MARK: strings
     var strNoInternetTitle : String = ""
@@ -175,6 +178,43 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         return true
     }
     
+    // MARK: collection view flow layout delegates
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = CGFloat(view.frame.width)
+        let spacing = CGFloat(minimumSectionInsets.left + minimumSectionInsets.right)
+        if width < (spacing + defaultCellWidth) {
+            let spaceLeft = width - spacing
+            return CGSize(width: spaceLeft, height: defaultCellHeight)
+        } else {
+            return CGSize(width: defaultCellWidth, height: defaultCellHeight)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let width = CGFloat(view.frame.width)
+        let minSpacing = CGFloat(minimumSectionInsets.left + minimumSectionInsets.right)
+        if width <= (minSpacing + defaultCellWidth) {
+            return minimumSectionInsets
+        } else {
+            let numCellToFit = Int(width / defaultCellWidth)
+            let remainingSpace = Int(width.truncatingRemainder(dividingBy: defaultCellWidth))
+            
+            let spaceBetween = CGFloat(remainingSpace / (numCellToFit + 1))
+            return UIEdgeInsets(top: minimumSectionInsets.top, left: spaceBetween, bottom: minimumSectionInsets.bottom, right: spaceBetween)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        let width = CGFloat(view.frame.width)
+        let numCellToFit = Int(width / defaultCellWidth)
+        let remainingSpace = Int(width.truncatingRemainder(dividingBy: defaultCellWidth))
+        if numCellToFit <= 1 {
+            return minimumSectionInsets.left
+        } else {
+            return CGFloat(remainingSpace / (numCellToFit + 1))
+        }
+    }
+    
     // MARK: AllVolumeTableViewControllerDelegate handler
     func allVolumeTableViewControllerWillDismiss(volumeNumber: Int) {
         if let settingsInstance = settings {
@@ -184,6 +224,15 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
         if let characterVersion = settings?.characterVersion {
             refreshContent(volumeNumber: volumeNumber, characterVersion: characterVersion)
         }*/
+    }
+    
+    func imageLoadedHandler(_ articleIndex: Int) {
+        var indices = [IndexPath]()
+        let item = IndexPath(item: articleIndex, section: 0)
+        if let _ = self.collectionView?.cellForItem(at: item) {
+            indices.append(item)
+            self.collectionView?.reloadItems(at: indices)
+        }
     }
     
     // MARK: private functions
@@ -252,13 +301,5 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     private func progressHandler(progress: Float) {
         self.loadingProgress?.setProgress(progress, animated: true)
     }
-    
-    func imageLoadedHandler(_ articleIndex: Int) {
-        var indices = [IndexPath]()
-        let item = IndexPath(item: articleIndex, section: 0)
-        if let _ = self.collectionView?.cellForItem(at: item) {
-            indices.append(item)
-            self.collectionView?.reloadItems(at: indices)
-        }
-    }
+
 }

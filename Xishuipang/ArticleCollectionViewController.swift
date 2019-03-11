@@ -258,7 +258,9 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     private func resetLoadingLabelAndSpinner() {
         loadingLabel.text = strLoading;
         loadingLabel.isHidden = false
+        loadingLabel.center = CGPoint(x: view.frame.width / 2.0, y: view.frame.height / 2.0)
         loadingSpinner.startAnimating()
+        loadingSpinner.center = CGPoint(x: view.frame.width / 2.0, y: view.frame.height / 2.0 - 28)
     }
     
     private func getSavedVolumeFromDisk() -> Volume? {

@@ -14,6 +14,7 @@ class ArticleViewController: UIViewController {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
     @IBOutlet weak var contentStackView: UIStackView!
     
     // MARK: properties
@@ -23,13 +24,16 @@ class ArticleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        loadArticleContentToView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loadingSpinner.center = CGPoint(x: view.frame.width / 2.0, y: view.frame.height / 2.0)
+        loadingSpinner.startAnimating()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         if let article = article, let settings = settings {
             if article.characterVersion != settings.characterVersion {
                 article.changeArticleCharacterVersion(settings.characterVersion)
@@ -45,10 +49,11 @@ class ArticleViewController: UIViewController {
                 }
                 
                 article.loadArticleContentFromServer(indexInVolume: 0, completionHandler: completionHandler, imageLoadedHandler: imageLoadedHandler)
-            } else if fontSize != settings.fontSize {
+            } else {
                 loadArticleContentToView()
             }
         }
+        loadingSpinner.stopAnimating()
     }
     
     // MARK: private methods
@@ -72,6 +77,7 @@ class ArticleViewController: UIViewController {
             for line in article.content {
                 if article.isImageTag(line: line) {
                     
+                    let viewWidth = view.frame.width
                     let stackViewWidth = contentStackView.frame.width
                     
                     let imageFileName = article.getImageFilenameFromImageTag(line: line)

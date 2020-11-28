@@ -32,5 +32,6 @@ struct API {
     
     struct VolumeList {
         static let URL = "http://www.xishuipang.com/volume/list"
+        static let Latest = "http://www.xishuipang.com/volume/latest"
     }
 }

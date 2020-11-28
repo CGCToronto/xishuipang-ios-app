@@ -21,13 +21,19 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     // MARK: constants
     let articleCollectionViewCellIdentifier = "ArticleCollectionViewCell"
     let articleCollectionHeaderIdentifier = "ArticleCollectionHeader"
+    let defaultCellWidth: CGFloat = 350.0
+    let defaultCellHeight: CGFloat = 375.0
+    let minimumSectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+    
+    // MARK: URLSession
+    private let defaultSession = URLSession(configuration: .default)
+    private var dataTask : URLSessionTask?
     
     // MARK: properties
     var selectedVolume : Volume? = Volume()
     var settings : Settings? = Settings()
-    let defaultCellWidth: CGFloat = 350.0
-    let defaultCellHeight: CGFloat = 375.0
-    let minimumSectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+
+    var firstTimeLoading: Bool = true;
     
     // MARK: strings
     var strNoInternetTitle : String = ""
@@ -71,11 +77,14 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
             updateViewWithNewStr()
         }
         
-        if let volumeNumber = settings?.selectedVolumeNumber, let characterVersion = settings?.characterVersion, let volume = selectedVolume {
-            if volume.volumeNumber != volumeNumber || volume.characterVersion != characterVersion {
-                refreshContent(volumeNumber: volumeNumber, characterVersion: characterVersion)
-            }
+        
+        if firstTimeLoading {
+            getLatestVolumeNumberFromServer(completionHandler: refreshContent)
+            firstTimeLoading = false
+        } else {
+            refreshContent()
         }
+        
     }
     
     // MARK: - Navigation
@@ -236,17 +245,23 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     }
     
     // MARK: private functions
-    private func refreshContent(volumeNumber: Int, characterVersion: Settings.CharacterVersion) {
-        selectedVolume?.clearVolumeContent()
-        self.collectionView?.reloadData()
-        resetLoadingLabelAndSpinner()
-        loadingProgress?.setProgress(0.0, animated: true)
-        let result = selectedVolume?.loadVolumeFromServer(withVolume: volumeNumber, characterVersion: characterVersion, progress: progressHandler, completion: volumeLoadedHandler, imageLoadedHandler: imageLoadedHandler)
+    private func refreshContent() {
         
-        if result == false {
-            let noInternetAlert = UIAlertController(title: strNoInternetTitle, message: strNoInternetMessage, preferredStyle: .alert)
-            
-            self.present(noInternetAlert, animated: true, completion: nil)
+        if let volumeNumber = settings?.selectedVolumeNumber, let characterVersion = settings?.characterVersion, let volume = selectedVolume {
+            if volume.volumeNumber != volumeNumber || volume.characterVersion != characterVersion {
+                
+                selectedVolume?.clearVolumeContent()
+                self.collectionView?.reloadData()
+                resetLoadingLabelAndSpinner()
+                loadingProgress?.setProgress(0.0, animated: true)
+                let result = selectedVolume?.loadVolumeFromServer(withVolume: volumeNumber, characterVersion: characterVersion, progress: progressHandler, completion: volumeLoadedHandler, imageLoadedHandler: imageLoadedHandler)
+                
+                if result == false {
+                    let noInternetAlert = UIAlertController(title: strNoInternetTitle, message: strNoInternetMessage, preferredStyle: .alert)
+                    
+                    self.present(noInternetAlert, animated: true, completion: nil)
+                }
+            }
         }
     }
     
@@ -302,6 +317,54 @@ class ArticleCollectionViewController: UICollectionViewController, AllVolumeTabl
     
     private func progressHandler(progress: Float) {
         self.loadingProgress?.setProgress(progress, animated: true)
+    }
+    
+    private func getLatestVolumeNumberFromServer(completionHandler: @escaping ()->Void) -> Bool {
+        if let urlComponents = URLComponents(string: API.VolumeList.Latest) {
+            dataTask?.cancel()
+            
+            guard let url = urlComponents.url else {
+                return false
+            }
+            
+            let handler = { (data: Data?, response:URLResponse?, error:Error?) -> Void in
+                if let error = error {
+                    os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
+                } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                    if self.parseVolumeNumber(data:data) {
+                        DispatchQueue.main.async {
+                            completionHandler()
+                        }
+                    }
+                }
+                
+                self.dataTask = nil
+            }
+            
+            dataTask = defaultSession.dataTask(with: url, completionHandler: handler)
+            dataTask?.resume()
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    private func parseVolumeNumber(data: Data?) -> Bool{
+        do {
+            guard let data = data else {
+                return false
+            }
+            guard let jsonObj = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? Int else {
+                throw NSError()
+            }
+            settings?.selectedVolumeNumber = jsonObj;
+            
+        } catch let error as NSError {
+            print(error.debugDescription)
+            return false
+        }
+        
+        return true
     }
 
 }

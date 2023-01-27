@@ -81,25 +81,42 @@ class ArticleViewController: UIViewController {
                     let stackViewWidth = contentStackView.frame.width
                     
                     let imageFileName = article.getImageFilenameFromImageTag(line: line)
-                    if let image = article.images[imageFileName] {
-                        let resizedImage = image.resizeWithAspectRatio(toFitIn: CGSize(width:stackViewWidth, height:stackViewWidth))
-                        let imageView = UIImageView(image: resizedImage)
-                        imageView.contentMode = .scaleAspectFit
-                        contentStackView.addArrangedSubview(imageView)
+                    let imageInfo = article.images[imageFileName]
+                    if imageInfo == nil || imageInfo?.imageData == nil {
+                        continue
                     }
+                    
+                    let resizedImage = imageInfo?.imageData?.resizeWithAspectRatio(toFitIn: CGSize(width:stackViewWidth, height:stackViewWidth))
+                    let imageView = UIImageView(image: resizedImage)
+                    imageView.contentMode = .scaleAspectFit
+                    contentStackView.addArrangedSubview(imageView)
+                    
+                    if imageInfo?.caption != "" {
+                        let captionText: String = imageInfo!.caption
+                        let captionView = createLineTextView(text: captionText, alignment: .center, fontSize: fontSize - 3)
+                        contentStackView.addArrangedSubview(captionView)
+                    }
+                    
                 } else if !article.isEmpty(line: line) {
-                    let lineTextView = UITextView()
-                    lineTextView.isScrollEnabled = false
-                    lineTextView.isEditable = false
-
-                    let paragraphStyle = NSMutableParagraphStyle()
-                    paragraphStyle.lineSpacing = 8
-                    let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font]
-                    lineTextView.attributedText = NSAttributedString(string: line, attributes: attributes)
+                    let lineTextView = createLineTextView(text: line, alignment: .left, fontSize: fontSize)
                     contentStackView.addArrangedSubview(lineTextView)
                 }
             }
         }
+    }
+    
+    private func createLineTextView(text: String, alignment: NSTextAlignment, fontSize: Int)
+        -> UITextView {
+        let lineTextView = UITextView()
+        lineTextView.isScrollEnabled = false
+        lineTextView.isEditable = false
+        let font = UIFont.preferredFont(forTextStyle: .body).withSize(CGFloat(fontSize))
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        paragraphStyle.alignment = alignment
+        let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font]
+        lineTextView.attributedText = NSAttributedString(string: text, attributes: attributes)
+        return lineTextView
     }
     
     private func clearContentStack() {

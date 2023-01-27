@@ -10,6 +10,12 @@ import Foundation
 import os.log
 import UIKit
 
+class ImageInfo : NSObject {
+    var imageFilename : String = ""
+    var caption : String = ""
+    var imageData : UIImage?
+}
+
 class Article : NSObject {
     
     // MARK: properties
@@ -19,7 +25,7 @@ class Article : NSObject {
     var title = ""
     var category = ""
     var author = ""
-    var images = [String:UIImage]()
+    var images = [String:ImageInfo]()
     var content = [String]()
     
     // MARK: URLSession
@@ -141,36 +147,69 @@ class Article : NSObject {
     }
     
     func getImageFilenameFromImageTag(line: String) -> String {
-        return line.trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
+        let trimmed = line.trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
+        let trimmedComponents = trimmed.components(separatedBy: ",")
+        let filename = trimmedComponents[0].trimmingCharacters(in: .whitespaces)
+        return filename
+    }
+    
+    func getImageInfoFromImageTag(line: String) -> ImageInfo {
+        let trimmed = line.trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
+        let trimmedComponents = trimmed.components(separatedBy: ",")
+        let filename = trimmedComponents[0].trimmingCharacters(in: .whitespaces)
+        var caption: String = ""
+        if trimmedComponents.count > 1 {
+            caption = trimmedComponents[1].trimmingCharacters(in: .whitespaces)
+        }
+        let imageInfo = ImageInfo()
+        imageInfo.imageFilename = filename
+        imageInfo.caption = caption
+        
+        return imageInfo
     }
     
     func loadImagesFromServer(indexInVolume: Int, imageLoadedHandler: @escaping (_ indexInVolume: Int) -> Void) {
         imageDownloadTasks.removeAll();
         for line in content {
-            if isImageTag(line: line) {
-                // image tag
-                let imageFileName = getImageFilenameFromImageTag(line: line)
-                if let urlComponents = URLComponents(string: API.Image.URL + "/" + API.Image.Query(volume: volume, imageFileName: imageFileName)) {
-                    if let url = urlComponents.url {
-                        let imageDownloadHandler = {(data: Data?, response:URLResponse?, error:Error?) -> Void in
-                            if let error = error {
-                                os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
-                            } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200, let url = response.url {
-                                let imageName = url.lastPathComponent
-                                let newImage = UIImage(data:data)
-                                self.images[imageName] = newImage
-                                DispatchQueue.main.async {
-                                    imageLoadedHandler(indexInVolume)
-                                }
-                            }
-                        }
-                        
-                        let downloadImgTask = defaultSession.dataTask(with: url, completionHandler: imageDownloadHandler)
-                        downloadImgTask.resume()
-                        imageDownloadTasks.append(downloadImgTask)
+            
+            if !isImageTag(line: line) {
+                continue
+            }
+            
+            // image tag
+            let imageInfo = getImageInfoFromImageTag(line: line)
+            let imageFileName = imageInfo.imageFilename
+            
+            let urlComponents = URLComponents(string: API.Image.URL + "/" + API.Image.Query(volume: volume, imageFileName: imageFileName))
+            if urlComponents == nil {
+                continue
+            }
+            
+            let url = urlComponents?.url
+            if url == nil {
+                continue
+            }
+            
+            let imageDownloadHandler = {(data: Data?, response:URLResponse?, error:Error?) -> Void in
+                if let error = error {
+                    os_log("Error: %S", log: .default, type: .debug, error.localizedDescription)
+                } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200, let url = response.url {
+                    let imageName = url.lastPathComponent
+                    let newImage = UIImage(data:data)
+                    
+                    imageInfo.imageData = newImage;
+                    
+                    self.images[imageName] = imageInfo
+                    DispatchQueue.main.async {
+                        imageLoadedHandler(indexInVolume)
                     }
                 }
             }
+            
+            
+            let downloadImgTask = defaultSession.dataTask(with: url!, completionHandler: imageDownloadHandler)
+            downloadImgTask.resume()
+            imageDownloadTasks.append(downloadImgTask)
         }
     }
 }

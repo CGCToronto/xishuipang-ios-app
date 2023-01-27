@@ -40,7 +40,7 @@ class ArticleCollectionViewCell: UICollectionViewCell{
             categoryLabel.text = article.category
             if article.images.count > 0 {
                 backgroundImage.isHidden = false
-                backgroundImage.image = article.images.first?.value
+                backgroundImage.image = article.images.first?.value.imageData
                 previewTextView.isHidden = true
                 previewTextView.text = ""
             } else {

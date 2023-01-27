@@ -498,7 +498,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T8MH7RUDKV;
 				INFOPLIST_FILE = Xishuipang/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -519,7 +520,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T8MH7RUDKV;
 				INFOPLIST_FILE = Xishuipang/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
